@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { Testimonials } from "@/components/testimonials";
 import { LeadForm } from "@/components/lead-form";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/sell")({
   head: () => ({
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/sell")({
       {
         name: "description",
         content:
-          "White-glove listing strategy across Springfield, Granby and Maine. Cinematic marketing, sharper pricing, firm negotiation.",
+          "White-glove listing strategy across Massachusetts and Connecticut. Cinematic marketing, sharper pricing, firm negotiation.",
       },
       { property: "og:title", content: "Sell With Maher" },
       {
@@ -24,56 +25,46 @@ export const Route = createFileRoute("/sell")({
   component: SellPage,
 });
 
-const PILLARS = [
-  {
-    n: "01",
-    t: "Pricing Strategy",
-    b: "A defensible number. Priced to win the first fourteen days.",
-    proof: ["Comparative market analysis", "Buyer-pool modeling", "Weekly re-read"],
-    img: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "02",
-    t: "Cinematic Marketing",
-    b: "Editorial photography, drone film, targeted paid reach.",
-    proof: ["Twilight photography", "Cinematic drone film", "Paid social + Google"],
-    img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "03",
-    t: "Firm Negotiation",
-    b: "Price, terms and timing — protected without theatrics.",
-    proof: ["Multi-offer strategy", "Contingency management", "Repair credit calibration"],
-    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "04",
-    t: "Calm Closing",
-    b: "No drama. No surprises. No midnight emails.",
-    proof: ["Weekly checkpoints", "Vendor coordination", "Post-close support"],
-    img: "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-];
-
-const CHECKLIST = [
-  "Editorial photo + drone shoot",
-  "Twilight and lifestyle imagery",
-  "3D floor plan and matterport",
-  "Print brochure with copywriting",
-  "Custom listing microsite",
-  "Paid social + Google Ads",
-  "Broker preview event",
-  "Weekly seller report",
-];
-
-const RESULTS = [
-  { k: "$150M+", v: "Sold" },
-  { k: "98%", v: "List-to-close" },
-  { k: "17 days", v: "Median DOM" },
-  { k: "104%", v: "Of asking" },
-];
-
 function SellPage() {
+  const { t } = useLanguage();
+
+  const PILLARS = [
+    {
+      n: "01",
+      t: t('sell.pillar1Title'),
+      b: t('sell.pillar1Desc'),
+      proof: [t('sell.pillar1Proof1'), t('sell.pillar1Proof2'), t('sell.pillar1Proof3')],
+      img: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "02",
+      t: t('sell.pillar2Title'),
+      b: t('sell.pillar2Desc'),
+      proof: [t('sell.pillar2Proof1'), t('sell.pillar2Proof2'), t('sell.pillar2Proof3')],
+      img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "03",
+      t: t('sell.pillar3Title'),
+      b: t('sell.pillar3Desc'),
+      proof: [t('sell.pillar3Proof1'), t('sell.pillar3Proof2'), t('sell.pillar3Proof3')],
+      img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "04",
+      t: t('sell.pillar4Title'),
+      b: t('sell.pillar4Desc'),
+      proof: [t('sell.pillar4Proof1'), t('sell.pillar4Proof2'), t('sell.pillar4Proof3')],
+      img: "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+  ];
+
+  const RESULTS = [
+    { k: "$150M+", v: t('sell.resultsSold') },
+    { k: "98%", v: t('sell.resultsListToClose') },
+    { k: "17 days", v: t('sell.resultsDOM') },
+    { k: "104%", v: t('sell.resultsAsking') },
+  ];
   return (
     <main className="relative bg-black">
       <SiteHeader transparentOnTop />
@@ -92,26 +83,22 @@ function SellPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              Seller's Agent
+              {t('sell.eyebrow')}
             </span>
           </div>
           <h1 className="mt-8 max-w-6xl font-serif text-6xl leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-[7.5rem]">
-            Sell for what it's <br />
-            <span className="italic">actually worth.</span>
+            {t('sell.heroTitle')} <span className="italic">{t('sell.heroTitleItalic')}</span>
           </h1>
+          <p className="mt-8 max-w-2xl text-lg text-white/80">
+            {t('sell.heroSubtitle')}
+          </p>
           <div className="mt-12 flex flex-col gap-4 sm:flex-row">
             <a
               href="#sell-form"
               className="inline-flex items-center gap-3 rounded-full bg-gold px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Start the Conversation <ArrowUpRight className="h-4 w-4" />
+              {t('sell.bookCall')} <ArrowUpRight className="h-4 w-4" />
             </a>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 rounded-full border border-white/30 px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md transition-colors hover:border-gold hover:text-gold"
-            >
-              Book a Call
-            </Link>
           </div>
         </div>
       </section>
@@ -138,19 +125,19 @@ function SellPage() {
               <div className="flex items-center gap-3">
                 <span className="h-px w-10 bg-gold" />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                  The Four Pillars
+                  {t('sell.pillarsEyebrow')}
                 </span>
               </div>
               <h2 className="mt-8 font-serif text-5xl leading-[0.98] tracking-tight text-white lg:text-[5.5rem]">
-                Fewer clients. <br />
-                <span className="italic text-white/80">Sharper outcomes.</span>
+                {t('sell.pillarsTitle')} <br />
+                <span className="italic text-white/80">{t('sell.pillarsTitleItalic')}</span>
               </h2>
               <p className="mt-8 max-w-md text-lg leading-relaxed text-white/60">
-                A boutique listing practice. Homes sell better when someone cares.
+                {t('sell.pillarsDescription')}
               </p>
               <div className="mt-10 h-px w-24 bg-gold/50" />
               <div className="mt-6 font-serif text-xl italic text-white/50">
-                "The details are the strategy."
+                "{t('sell.pillarsQuote')}"
               </div>
             </div>
           </aside>
@@ -199,54 +186,6 @@ function SellPage() {
         </div>
       </section>
 
-      {/* Marketing checklist — dual column list with cinematic imagery */}
-      <section className="relative overflow-hidden border-t border-white/5 bg-[#070707] py-24 lg:py-32">
-        <img
-          src="https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=2400"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-15"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black" />
-        <div className="relative mx-auto max-w-[1600px] px-6 lg:px-12">
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-10 bg-gold" />
-                <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                  Every Listing Includes
-                </span>
-              </div>
-              <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-                The full <span className="italic">marketing suite</span>.
-              </h2>
-              <p className="mt-6 max-w-md text-white/60">
-                No tiers. No upsells. Every home gets the full treatment.
-              </p>
-            </div>
-            <div className="lg:col-span-7">
-              <ul className="grid grid-cols-1 gap-x-10 gap-y-1 sm:grid-cols-2">
-                {CHECKLIST.map((c, i) => (
-                  <li
-                    key={c}
-                    className="group flex items-center gap-4 border-b border-white/10 py-5"
-                  >
-                    <span className="grid h-8 w-8 flex-none place-items-center rounded-full border border-gold/40 text-gold">
-                      <Check className="h-4 w-4" />
-                    </span>
-                    <span className="font-serif text-xl text-white/90 group-hover:text-white">
-                      {c}
-                    </span>
-                    <span className="ml-auto text-[0.6rem] uppercase tracking-[0.32em] text-white/30">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Signature: Live Market Pulse — mini editorial dashboard */}
       <section className="relative overflow-hidden border-t border-white/5 bg-black py-24 lg:py-32">
         <div className="pointer-events-none absolute inset-0 opacity-40">
@@ -262,25 +201,25 @@ function SellPage() {
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
                 </span>
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                  Live Market Pulse
+                  {t('sell.marketEyebrow')}
                 </span>
               </div>
               <h2 className="mt-6 font-serif text-5xl leading-[0.98] tracking-tight text-white lg:text-[5rem]">
-                What the market is <br />
-                <span className="italic text-white/80">actually doing.</span>
+                {t('sell.marketTitle')} <br />
+                <span className="italic text-white/80">{t('sell.marketTitleItalic')}</span>
               </h2>
             </div>
             <div className="text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
-              Updated weekly · Springfield · Granby · Longmeadow · Southern Maine
+              {t('sell.marketUpdated')}
             </div>
           </div>
 
           <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { k: "Median sale price", v: "$542K", d: "+6.8% YoY", w: "82%" },
-              { k: "Days on market", v: "17", d: "−9 days vs. 2024", w: "34%" },
-              { k: "Over-asking rate", v: "62%", d: "of listings closed", w: "62%" },
-              { k: "Buyer demand index", v: "High", d: "3.1 offers avg.", w: "88%" },
+              { k: t('sell.marketMedianPrice'), v: "$542K", d: "+6.8% YoY", w: "82%" },
+              { k: t('sell.marketDaysOnMarket'), v: "17", d: "−9 days vs. 2024", w: "34%" },
+              { k: t('sell.marketOverAsking'), v: "62%", d: "of listings closed", w: "62%" },
+              { k: t('sell.marketDemand'), v: "High", d: "3.1 offers avg.", w: "88%" },
             ].map((m) => (
               <div
                 key={m.k}
@@ -304,14 +243,14 @@ function SellPage() {
           <div className="mt-16 flex flex-col items-start gap-6 rounded-3xl border border-white/10 bg-[#080808] p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
             <div className="max-w-xl">
               <div className="font-serif text-2xl text-white lg:text-3xl">
-                Curious what <span className="italic text-gold">your home</span> would land at today?
+                {t('sell.marketCTA')} <span className="italic text-gold">{t('sell.marketCTAItalic')}</span> {t('sell.marketCTAEnd')}
               </div>
             </div>
             <a
               href="#sell-form"
               className="inline-flex flex-none items-center gap-3 rounded-full bg-gold px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
             >
-              Get My Number <ArrowUpRight className="h-4 w-4" />
+              {t('sell.marketCTAButton')} <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -333,26 +272,26 @@ function SellPage() {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-gold" />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                Start the Conversation
+                {t('sell.formEyebrow')}
               </span>
             </div>
             <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-              Tell me about your <span className="italic">home</span>.
+              {t('sell.formTitle')} <span className="italic">{t('sell.formTitleItalic')}</span>.
             </h2>
             <p className="mt-6 max-w-md text-white/60">
-              Private. Zero pressure.
+              {t('sell.formSubtitle')}
             </p>
           </div>
           <div className="lg:col-span-7">
             <LeadForm
-              title="Sell With Maher"
-              submitLabel="Send Details"
+              title={t('sell.eyebrow')}
+              submitLabel={t('sell.formSubmit')}
               fields={[
-                { name: "name", label: "Name", placeholder: "Full name" },
-                { name: "phone", label: "Phone", placeholder: "(413) 555-0100" },
-                { name: "email", label: "Email", type: "email", placeholder: "you@email.com" },
-                { name: "address", label: "Property Address", placeholder: "Street, City" },
-                { name: "message", label: "Message", placeholder: "Anything I should know?", textarea: true },
+                { name: "name", label: t('form.name'), placeholder: t('form.fullName') },
+                { name: "phone", label: t('form.phone'), placeholder: t('form.phonePlaceholder') },
+                { name: "email", label: t('form.email'), type: "email", placeholder: t('form.emailPlaceholder') },
+                { name: "address", label: t('form.propertyAddress'), placeholder: t('form.propertyAddressPlaceholder') },
+                { name: "message", label: t('form.message'), placeholder: t('form.messagePlaceholder'), textarea: true },
               ]}
             />
           </div>

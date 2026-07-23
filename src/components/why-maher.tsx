@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CENTER_VIDEO =
   "/videos/why-maher-center.mp4";
@@ -43,9 +44,10 @@ type SideCardProps = {
   href: string;
   side: "left" | "right";
   delay?: string;
+  labelNum: string;
 };
 
-function SideCard({ label, video, videoWebm, poster, href, side, delay }: SideCardProps) {
+function SideCard({ label, video, videoWebm, poster, href, side, delay, labelNum }: SideCardProps) {
   const { ref, shown } = useReveal<HTMLAnchorElement>();
   return (
     <a
@@ -113,7 +115,7 @@ function SideCard({ label, video, videoWebm, poster, href, side, delay }: SideCa
       <div className="absolute inset-x-6 bottom-6 flex items-center gap-3">
         <span className="h-px w-8 bg-[color:var(--gold)]/80 transition-all duration-500 group-hover:w-16" />
         <span className="text-[0.6rem] font-semibold uppercase tracking-[0.4em] text-white/60">
-          {side === "left" ? "01" : "02"}
+          {labelNum}
         </span>
       </div>
     </a>
@@ -121,6 +123,7 @@ function SideCard({ label, video, videoWebm, poster, href, side, delay }: SideCa
 }
 
 export function WhyMaher() {
+  const { t } = useLanguage();
   const heading = useReveal<HTMLDivElement>();
   const video = useReveal<HTMLDivElement>();
   const centerVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -174,20 +177,17 @@ export function WhyMaher() {
           <div className="mx-auto flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[color:var(--gold)]/70" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.45em] text-[color:var(--gold)]">
-              The Difference
+              {t('whyMaher.eyebrow')}
             </span>
             <span className="h-px w-10 bg-[color:var(--gold)]/70" />
           </div>
 
           <h2 className="mt-8 font-serif text-5xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Why work with{" "}
-            <span className="italic text-white/90">Maher?</span>
+            {t('whyMaher.title')}
           </h2>
 
           <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
-            A rare blend of deep local expertise, honest counsel and a
-            marketing approach built for the modern buyer — delivering
-            uncommon results from Springfield to the coast of Maine.
+            {t('whyMaher.description')}
           </p>
         </div>
 
@@ -195,13 +195,14 @@ export function WhyMaher() {
         <div className="mt-24 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[180px_minmax(0,1fr)_180px] lg:gap-8">
           <div className="hidden lg:block">
             <SideCard
-              label="Meet Maher"
+              label={t('whyMaher.videoTitle1')}
               video={MEET_MAHER_VIDEO}
               videoWebm={MEET_MAHER_VIDEO_WEBM}
               poster={MEET_MAHER_POSTER}
               href="#meet-maher"
               side="left"
               delay="120ms"
+              labelNum="01"
             />
           </div>
 
@@ -269,35 +270,35 @@ export function WhyMaher() {
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[color:var(--gold)]/80" />
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-white/80">
-                  Watch the film
+                  {t('whyMaher.watchFilm')}
                 </span>
               </div>
               <span className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-white/60">
-                02:14
+                {t('whyMaher.filmDuration')}
               </span>
             </div>
 
             {/* Bottom title */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 p-8 lg:p-10">
               <h3 className="font-serif text-4xl font-medium leading-tight text-white sm:text-5xl">
-                A cinematic tour <span className="italic">through home.</span>
+                {t('whyMaher.videoTitle1')}
               </h3>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-white/65">
-                Two minutes inside the philosophy, the process, and the
-                results.
+                {t('whyMaher.videoDesc1')}
               </p>
             </div>
           </div>
 
           <div className="hidden lg:block">
             <SideCard
-              label="Success Stories"
+              label={t('whyMaher.videoTitle2')}
               video={SUCCESS_VIDEO}
               videoWebm={SUCCESS_VIDEO_WEBM}
               poster={SUCCESS_POSTER}
               href="#stories"
               side="right"
               delay="220ms"
+              labelNum="02"
             />
           </div>
 

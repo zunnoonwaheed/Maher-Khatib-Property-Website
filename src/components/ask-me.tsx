@@ -1,6 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function AskMe() {
+  const { t } = useLanguage();
   return (
     <section
       id="ask"
@@ -15,16 +17,19 @@ export function AskMe() {
       <div aria-hidden="true" className="absolute inset-0 bg-black/65" />
       <div className="relative mx-auto max-w-[1500px] px-6 text-center lg:px-12">
         <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-          Ask Me Anything
+          {t('askMe.eyebrow')}
         </span>
         <h2 className="mx-auto mt-8 max-w-3xl font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[5rem]">
-          A single conversation can <span className="italic">change everything</span>.
+          {t('askMe.title')}
         </h2>
+        <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/60 sm:text-lg">
+          {t('askMe.description')}
+        </p>
         <a
           href="#contact"
           className="mt-12 inline-flex items-center gap-3 rounded-full bg-white px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform duration-300 hover:-translate-y-1"
         >
-          Book a Call
+          {t('footer.bookCall')}
           <ArrowUpRight className="h-4 w-4" />
         </a>
       </div>

@@ -1,35 +1,27 @@
 import { useState, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const STATES = ["Massachusetts", "Maine", "Connecticut", "New Hampshire", "Vermont"];
+const STATES = ["Massachusetts", "Connecticut"];
 
 const AREA_CARDS: Record<string, { id: string; name: string; image: string }[]> = {
   Massachusetts: [
     { id: "ma-1", name: "Springfield, MA", image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80" },
     { id: "ma-2", name: "Granby, MA", image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80" },
-    { id: "ma-3", name: "Granby Countryside", image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80" },
+    { id: "ma-3", name: "Longmeadow, MA", image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80" },
     { id: "ma-4", name: "Westfield, MA", image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80" },
     { id: "ma-5", name: "Chicopee, MA", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" },
-  ],
-  Maine: [
-    { id: "me-1", name: "Portland, ME", image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80" },
-    { id: "me-2", name: "Kennebunkport, ME", image: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=800&q=80" },
   ],
   Connecticut: [
     { id: "ct-1", name: "Hartford, CT", image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80" },
     { id: "ct-2", name: "New Haven, CT", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" },
-  ],
-  "New Hampshire": [
-    { id: "nh-1", name: "Manchester, NH", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80" },
-    { id: "nh-2", name: "Portsmouth, NH", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" },
-  ],
-  Vermont: [
-    { id: "vt-1", name: "Burlington, VT", image: "https://images.unsplash.com/photo-1605146768851-eda79da39897?auto=format&fit=crop&w=800&q=80" },
-    { id: "vt-2", name: "Stowe, VT", image: "https://images.unsplash.com/photo-1600047509358-9c3e034c31d8?auto=format&fit=crop&w=800&q=80" },
+    { id: "ct-3", name: "Stamford, CT", image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80" },
+    { id: "ct-4", name: "Greenwich, CT", image: "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=800&q=80" },
   ],
 };
 
 export function FindYourPlace() {
+  const { t } = useLanguage();
   const [active, setActive] = useState("Massachusetts");
   const scrollRef = useRef<HTMLDivElement>(null);
   const cards = AREA_CARDS[active] || [];
@@ -42,16 +34,15 @@ export function FindYourPlace() {
           <div className="inline-flex items-center gap-3">
             <span className="h-px w-10 bg-gold/70" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              Area guides
+              {t('findYourPlace.eyebrow')}
             </span>
             <span className="h-px w-10 bg-gold/70" />
           </div>
           <h2 className="mx-auto mt-8 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[4.5rem]">
-            Find your place. <span className="italic">Love where you live.</span>
+            {t('findYourPlace.title')}
           </h2>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/55 sm:text-lg">
-            Our area guides offer deep insights into schools, amenities and market trends,
-            so you can make confident, informed decisions about where to call home.
+            {t('findYourPlace.description')}
           </p>
         </div>
 

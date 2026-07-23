@@ -4,6 +4,7 @@ import { ArrowUpRight, X, Check, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { LeadForm } from "@/components/lead-form";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/offer")({
   head: () => ({
@@ -31,61 +32,8 @@ const BAND_VIDEO =
 const FORM_VIDEO =
   "https://videos.pexels.com/video-files/6474226/6474226-hd_1920_1080_24fps.mp4";
 
-const HOW = [
-  {
-    n: "01",
-    t: "Reach Out",
-    img: "https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "02",
-    t: "Walkthrough",
-    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "03",
-    t: "Offer",
-    img: "https://images.pexels.com/photos/6863515/pexels-photo-6863515.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
-    n: "04",
-    t: "Close",
-    img: "https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-];
-
-const COMPARE = [
-  { row: "Repairs required", trad: false, direct: true },
-  { row: "Public showings", trad: false, direct: true },
-  { row: "Commissions", trad: false, direct: true },
-  { row: "Close on your date", trad: true, direct: false },
-  { row: "Offer in 48 hours", trad: true, direct: false },
-];
-
-const WHO = [
-  {
-    t: "Inherited",
-    img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  },
-  {
-    t: "Needs repairs",
-    img: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  },
-  {
-    t: "Relocation",
-    img: "https://images.pexels.com/photos/2062431/pexels-photo-2062431.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  },
-  {
-    t: "Tired rental",
-    img: "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  },
-  {
-    t: "Private sale",
-    img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  },
-];
-
 function OfferEstimator() {
+  const { t } = useLanguage();
   const [value, setValue] = useState(450);
   const low = Math.round(value * 0.86);
   const high = Math.round(value * 0.94);
@@ -103,22 +51,22 @@ function OfferEstimator() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
             </span>
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              Instant Estimate
+              {t('offer.estimatorEyebrow')}
             </span>
           </div>
           <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-            A rough range, <br />
-            <span className="italic">in seconds.</span>
+            {t('offer.estimatorTitle')} <br />
+            <span className="italic">{t('offer.estimatorTitleItalic')}</span>
           </h2>
           <p className="mt-6 max-w-md text-white/60">
-            Slide to your rough home value. The exact number comes after a 20-minute walkthrough.
+            {t('offer.estimatorDesc')}
           </p>
         </div>
         <div className="lg:col-span-7">
           <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black p-8 lg:p-12">
             <div className="flex items-baseline justify-between">
               <div className="text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
-                Estimated home value
+                {t('offer.estimatorLabel')}
               </div>
               <div className="font-serif text-4xl text-white lg:text-5xl">{fmt(value)}</div>
             </div>
@@ -130,7 +78,7 @@ function OfferEstimator() {
               value={value}
               onChange={(e) => setValue(Number(e.target.value))}
               className="mt-8 w-full accent-[oklch(0.78_0.11_85)]"
-              aria-label="Estimated home value"
+              aria-label={t('offer.estimatorLabel')}
             />
             <div className="mt-3 flex justify-between text-[0.6rem] uppercase tracking-[0.28em] text-white/30">
               <span>$150K</span>
@@ -139,13 +87,13 @@ function OfferEstimator() {
             <div className="mt-10 grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
                 <div className="text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
-                  Direct offer — low
+                  {t('offer.estimatorLow')}
                 </div>
                 <div className="mt-4 font-serif text-4xl text-white">{fmt(low)}</div>
               </div>
               <div className="rounded-2xl border border-gold/40 bg-gradient-to-br from-black to-[#141008] p-6">
                 <div className="text-[0.6rem] uppercase tracking-[0.32em] text-gold">
-                  Direct offer — high
+                  {t('offer.estimatorHigh')}
                 </div>
                 <div className="mt-4 font-serif text-4xl text-white">{fmt(high)}</div>
               </div>
@@ -154,7 +102,7 @@ function OfferEstimator() {
               href="#offer-form"
               className="mt-8 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-3.5 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
             >
-              Lock in the Exact Number <ArrowUpRight className="h-4 w-4" />
+              {t('offer.estimatorCTA')} <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -164,8 +112,67 @@ function OfferEstimator() {
 }
 
 function OfferPage() {
+  const { t } = useLanguage();
   const [popup, setPopup] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+
+  const HOW = [
+    {
+      n: "01",
+      t: t('offer.step1Title'),
+      d: t('offer.step1Desc'),
+      img: "https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "02",
+      t: t('offer.step2Title'),
+      d: t('offer.step2Desc'),
+      img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "03",
+      t: t('offer.step3Title'),
+      d: t('offer.step3Desc'),
+      img: "https://images.pexels.com/photos/6863515/pexels-photo-6863515.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      n: "04",
+      t: t('offer.step4Title'),
+      d: t('offer.step4Desc'),
+      img: "https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+  ];
+
+  const COMPARE = [
+    { row: t('offer.compareRowRepairs'), direct: t('offer.compareDirectRepairs'), listing: t('offer.compareListingRepairs') },
+    { row: t('offer.compareRowShowings'), direct: t('offer.compareDirectShowings'), listing: t('offer.compareListingShowings') },
+    { row: t('offer.compareRowCommission'), direct: t('offer.compareDirectCommission'), listing: t('offer.compareListingCommission') },
+    { row: t('offer.compareRowClosing'), direct: t('offer.compareDirectClosing'), listing: t('offer.compareListingClosing') },
+    { row: t('offer.compareRowTimeline'), direct: t('offer.compareDirectTimeline'), listing: t('offer.compareListingTimeline') },
+  ];
+
+  const WHO = [
+    {
+      t: t('offer.whoForInherited'),
+      img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    },
+    {
+      t: t('offer.whoForNeedsRepairs'),
+      img: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    },
+    {
+      t: t('offer.whoForRelocation'),
+      img: "https://images.pexels.com/photos/2062431/pexels-photo-2062431.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    },
+    {
+      t: t('offer.whoForTiredRental'),
+      img: "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    },
+    {
+      t: t('offer.whoForPrivate'),
+      img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    },
+  ];
 
   useEffect(() => {
     const onScroll = () => {
@@ -200,28 +207,28 @@ function OfferPage() {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-gold" />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                Direct Buyer
+                {t('offer.eyebrow')}
               </span>
             </div>
             <h1 className="mt-8 font-serif text-6xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-[8.5rem]">
-              Get an offer <br />
-              <span className="italic">on your home.</span>
+              {t('offer.heroTitle')} <br />
+              <span className="italic">{t('offer.heroTitleItalic')}</span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/70">
-              No repairs. No showings. In 48 hours.
+              {t('offer.heroSubtitle')}
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a
                 href="#offer-form"
                 className="inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
               >
-                Request Offer <ArrowUpRight className="h-4 w-4" />
+                {t('offer.requestOffer')} <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-3 rounded-full border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
               >
-                Book a Call
+                {t('offer.bookCall')}
               </Link>
             </div>
           </div>
@@ -234,11 +241,11 @@ function OfferPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              How It Works
+              {t('offer.howItWorksEyebrow')}
             </span>
           </div>
           <h2 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-7xl">
-            Four steps. <span className="italic text-white/70">That's it.</span>
+            {t('offer.howItWorksTitle')} <span className="italic text-white/70">{t('offer.howItWorksTitleItalic')}</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -275,8 +282,8 @@ function OfferPage() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 mx-auto flex h-full max-w-[1400px] items-center px-6 lg:px-12">
           <blockquote className="max-w-3xl font-serif text-4xl leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-            "A private offer,{" "}
-            <span className="italic text-gold">on your timeline</span> — with none of the theatre."
+            "{t('offer.quote')}{" "}
+            <span className="italic text-gold">{t('offer.quoteItalic')}</span> {t('offer.quoteEnd')}"
           </blockquote>
         </div>
       </section>
@@ -287,11 +294,11 @@ function OfferPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              Direct vs Traditional
+              {t('offer.compareEyebrow')}
             </span>
           </div>
           <h2 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-7xl">
-            One route is <span className="italic">quieter</span>.
+            {t('offer.compareTitle')} <span className="italic">{t('offer.compareTitleItalic')}</span>.
           </h2>
 
           <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-12">
@@ -311,44 +318,35 @@ function OfferPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-8">
                 <div className="text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-                  The Direct Path
+                  {t('offer.compareDirectPath')}
                 </div>
                 <div className="mt-3 font-serif text-3xl text-white lg:text-4xl">
-                  Sold. <span className="italic text-white/70">Quietly.</span>
+                  {t('offer.compareSold')} <span className="italic text-white/70">{t('offer.compareSoldItalic')}</span>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-7">
               <div className="overflow-hidden rounded-2xl border border-white/10">
-                <div className="grid grid-cols-[1fr_auto_auto] items-center gap-6 border-b border-white/10 bg-white/[0.02] px-6 py-4 text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
+                <div className="grid grid-cols-[140px_1fr_1fr] gap-6 border-b border-white/10 bg-white/[0.02] px-6 py-4 text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
                   <span />
-                  <span className="w-24 text-center">Traditional</span>
-                  <span className="w-24 text-center text-gold">Direct</span>
+                  <span>{t('offer.compareDirectPath')}</span>
+                  <span>{t('offer.listingOnMarket')}</span>
                 </div>
                 {COMPARE.map((c) => (
                   <div
                     key={c.row}
-                    className="grid grid-cols-[1fr_auto_auto] items-center gap-6 border-b border-white/5 px-6 py-6 last:border-0"
+                    className="grid grid-cols-[140px_1fr_1fr] gap-6 border-b border-white/5 px-6 py-6 last:border-0"
                   >
-                    <span className="font-serif text-xl text-white lg:text-2xl">{c.row}</span>
-                    <span className="flex w-24 justify-center">
-                      {c.trad ? (
-                        <Check className="h-5 w-5 text-white/50" />
-                      ) : (
-                        <Minus className="h-5 w-5 text-white/20" />
-                      )}
-                    </span>
-                    <span className="flex w-24 justify-center">
-                      {c.direct ? (
-                        <Check className="h-5 w-5 text-gold" />
-                      ) : (
-                        <Minus className="h-5 w-5 text-white/20" />
-                      )}
-                    </span>
+                    <span className="font-serif text-lg text-gold lg:text-xl">{c.row}</span>
+                    <span className="text-base text-white/80">{c.direct}</span>
+                    <span className="text-base text-white/60">{c.listing}</span>
                   </div>
                 ))}
               </div>
+              <p className="mt-8 text-base leading-relaxed text-white/60">
+                {t('offer.compareDisclaimer')}
+              </p>
             </div>
           </div>
         </div>
@@ -363,11 +361,11 @@ function OfferPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              Who This Is For
+              {t('offer.whoForEyebrow')}
             </span>
           </div>
           <h2 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-7xl">
-            Owners who want <span className="italic text-white/70">out cleanly</span>.
+            {t('offer.whoForTitle')} <span className="italic text-white/70">{t('offer.whoForTitleItalic')}</span>.
           </h2>
         </div>
         <div className="mx-auto grid max-w-[1600px] grid-cols-2 gap-2 px-6 md:grid-cols-3 lg:grid-cols-5 lg:px-12">
@@ -394,21 +392,21 @@ function OfferPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              48-Hour Timeline
+              {t('offer.timelineEyebrow')}
             </span>
           </div>
           <h2 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-7xl">
-            From call <span className="italic">to closing table</span>.
+            {t('offer.timelineTitle')} <span className="italic">{t('offer.timelineTitleItalic')}</span>.
           </h2>
 
           <div className="relative mt-20">
             <div className="absolute left-0 right-0 top-6 h-px bg-white/10" />
             <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
               {[
-                { h: "Hour 0", t: "First call" },
-                { h: "Hour 24", t: "Walkthrough" },
-                { h: "Hour 48", t: "Written offer" },
-                { h: "Day 14", t: "Cash at close" },
+                { h: t('offer.timelineHour0'), t: t('offer.timelineHour0Label') },
+                { h: t('offer.timelineHour24'), t: t('offer.timelineHour24Label') },
+                { h: t('offer.timelineHour48'), t: t('offer.timelineHour48Label') },
+                { h: t('offer.timelineDay14'), t: t('offer.timelineDay14Label') },
               ].map((row) => (
                 <div key={row.h} className="relative">
                   <span className="relative z-10 flex h-3 w-3 -translate-y-[5px] items-center justify-center rounded-full bg-gold shadow-[0_0_0_6px_rgba(0,0,0,1)]" />
@@ -438,19 +436,19 @@ function OfferPage() {
         <div className="relative mx-auto grid max-w-[1500px] grid-cols-1 gap-16 px-6 lg:grid-cols-12 lg:gap-24 lg:px-12">
           <div className="lg:col-span-5">
             <h2 className="font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-              Request your <span className="italic">offer</span>.
+              {t('offer.formTitle')} <span className="italic">{t('offer.formTitleItalic')}</span>.
             </h2>
           </div>
           <div className="lg:col-span-7">
             <LeadForm
-              title="Get Your Offer"
-              submitLabel="Request My Offer"
+              title={t('offer.formTitle')}
+              submitLabel={t('offer.formSubmit')}
               variant="dark"
               fields={[
-                { name: "name", label: "Name", placeholder: "Full name" },
-                { name: "phone", label: "Phone", placeholder: "(413) 555-0100" },
-                { name: "email", label: "Email", type: "email", placeholder: "you@email.com" },
-                { name: "address", label: "Property Address", placeholder: "Street, City" },
+                { name: "name", label: t('form.name'), placeholder: t('form.fullName') },
+                { name: "phone", label: t('form.phone'), placeholder: t('form.phonePlaceholder') },
+                { name: "email", label: t('form.email'), type: "email", placeholder: t('form.emailPlaceholder') },
+                { name: "address", label: t('form.propertyAddress'), placeholder: t('form.propertyAddressPlaceholder') },
               ]}
             />
           </div>
@@ -474,10 +472,10 @@ function OfferPage() {
               <X className="h-4 w-4" />
             </button>
             <div className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-gold">
-              Instant Offer
+              {t('offer.estimatorEyebrow')}
             </div>
             <h3 className="mt-4 font-serif text-2xl leading-tight text-white">
-              A direct offer on your home in 48 hours?
+              {t('offer.popupTitle')}
             </h3>
             <a
               href="#offer-form"
@@ -487,7 +485,7 @@ function OfferPage() {
               }}
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black"
             >
-              Request My Offer <ArrowUpRight className="h-4 w-4" />
+              {t('offer.popupCTA')} <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         </div>

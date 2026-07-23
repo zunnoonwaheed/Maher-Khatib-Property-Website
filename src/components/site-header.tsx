@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type NavLink = { label: string; to: string };
 
-const NAV: NavLink[] = [
-  { label: "About", to: "/about" },
-  { label: "Sell With Maher", to: "/sell" },
-  { label: "Get Your Offer", to: "/offer" },
-  { label: "New Builds & Investors", to: "/new-builds" },
-  { label: "Listings", to: "/listings" },
-  { label: "Contact", to: "/contact" },
-];
+const useNav = () => {
+  const { t } = useLanguage();
+  return [
+    { label: t('nav.sellWithMaher'), to: "/sell" },
+    { label: t('nav.getYourOffer'), to: "/offer" },
+    { label: t('nav.investments'), to: "/investments" },
+    { label: t('nav.newBuilds'), to: "/new-builds" },
+    { label: t('nav.listings'), to: "/listings" },
+    { label: t('nav.about'), to: "/about" },
+  ];
+};
 
 type Props = {
   /** When true, header sits transparent over a hero until scroll. When false, always solid. */
@@ -22,6 +26,8 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { language, setLanguage, t } = useLanguage();
+  const NAV = useNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -95,15 +101,38 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
 
           {/* Right actions */}
           <div className="flex items-center gap-3">
+            {/* Language Selector */}
+            <div className="hidden items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 backdrop-blur-sm md:flex">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`rounded-full px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-all ${
+                  language === 'en'
+                    ? 'bg-gold text-black'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage('es')}
+                className={`rounded-full px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-all ${
+                  language === 'es'
+                    ? 'bg-gold text-black'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                ES
+              </button>
+            </div>
             <Link
               to="/offer"
               className="hidden items-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-black transition-transform duration-300 hover:-translate-y-0.5 md:inline-flex"
             >
-              Get Your Offer
+              {t('nav.getYourOffer')}
             </Link>
             <button
               type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileOpen ? t('nav.closeMenu') : t('nav.openMenu')}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
               className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-white/20 xl:hidden"
@@ -114,7 +143,7 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
                 <Menu className="h-4 w-4" aria-hidden="true" />
               )}
               <span className="hidden sm:inline">
-                {mobileOpen ? "Close" : "Menu"}
+                {mobileOpen ? t('nav.close') : t('nav.menu')}
               </span>
             </button>
           </div>
@@ -170,16 +199,37 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
               onClick={() => setMobileOpen(false)}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-gold px-8 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black"
             >
-              Get Your Offer
+              {t('nav.getYourOffer')}
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <div className="mt-6 flex items-center justify-between text-[0.7rem] uppercase tracking-[0.3em] text-white/50">
-              <a href="tel:+14135550100" className="hover:text-white">
-                (413) 555-0100
+              <a href="tel:+16045551234" className="hover:text-white">
+                {t('contact.phone')}
               </a>
-              <a href="mailto:hello@maherkhatib.com" className="hover:text-white">
-                hello@maherkhatib.com
+              <a href="mailto:maher@mbcrealtors.ca" className="hover:text-white">
+                {t('contact.email')}
               </a>
+            </div>
+            {/* Mobile Language Selector */}
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <Globe className="h-4 w-4 text-white/50" />
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${
+                  language === 'en' ? 'text-gold' : 'text-white/50'
+                }`}
+              >
+                English
+              </button>
+              <span className="text-white/30">|</span>
+              <button
+                onClick={() => setLanguage('es')}
+                className={`px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${
+                  language === 'es' ? 'text-gold' : 'text-white/50'
+                }`}
+              >
+                Español
+              </button>
             </div>
           </div>
         </div>

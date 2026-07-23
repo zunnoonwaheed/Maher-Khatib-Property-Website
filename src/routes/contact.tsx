@@ -3,11 +3,12 @@ import { Phone, Mail, MapPin, ArrowUpRight, Calendar } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { LeadForm } from "@/components/lead-form";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Maher Khatib | Real Estate Springfield, Granby & Maine" },
+      { title: "Contact Maher Khatib | Massachusetts & Connecticut Real Estate" },
       {
         name: "description",
         content:
@@ -23,41 +24,33 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const CHANNELS = [
-  {
-    icon: Phone,
-    label: "Call",
-    value: "(413) 555-0100",
-    href: "tel:+14135550100",
-    detail: "Fastest reply. Mon–Sat, 8 to 8.",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "hello@maherkhatib.com",
-    href: "mailto:hello@maherkhatib.com",
-    detail: "Reply within one business day.",
-  },
-  {
-    icon: Calendar,
-    label: "Book",
-    value: "Private consultation",
-    href: "#contact-form",
-    detail: "In person, phone, or video.",
-  },
-];
-
-const WEEK = [
-  { d: "Mon", h: "8am — 8pm" },
-  { d: "Tue", h: "8am — 8pm" },
-  { d: "Wed", h: "8am — 8pm" },
-  { d: "Thu", h: "8am — 8pm" },
-  { d: "Fri", h: "8am — 8pm" },
-  { d: "Sat", h: "10am — 4pm" },
-  { d: "Sun", h: "By appointment" },
-];
-
 function ContactPage() {
+  const { t } = useLanguage();
+
+  const CHANNELS = [
+    {
+      icon: Phone,
+      label: t('contact.channelCall'),
+      value: t('contact.channelCallValue'),
+      href: "tel:+16045551234",
+      detail: t('contact.channelCallDetail'),
+    },
+    {
+      icon: Mail,
+      label: t('contact.channelEmail'),
+      value: t('contact.channelEmailValue'),
+      href: "mailto:maher@mbcrealtors.ca",
+      detail: t('contact.channelEmailDetail'),
+    },
+    {
+      icon: Calendar,
+      label: t('contact.channelBook'),
+      value: t('contact.channelBookValue'),
+      href: "#contact-form",
+      detail: t('contact.channelBookDetail'),
+    },
+  ];
+
   return (
     <main className="relative bg-black">
       <SiteHeader transparentOnTop />
@@ -78,15 +71,15 @@ function ContactPage() {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-gold" />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                Contact
+                {t('contact.eyebrow')}
               </span>
             </div>
             <h1 className="mt-8 font-serif text-6xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-[8.5rem]">
-              Let's talk. <br />
-              <span className="italic">Directly.</span>
+              {t('contact.heroTitle')} <br />
+              <span className="italic">{t('contact.heroTitleItalic')}</span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/70">
-              One person. One conversation.
+              {t('contact.heroSubtitle')}
             </p>
           </div>
 
@@ -125,37 +118,36 @@ function ContactPage() {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-gold" />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                Send a Message
+                {t('contact.formEyebrow')}
               </span>
             </div>
             <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-              Tell me what you're <span className="italic">working on</span>.
+              {t('contact.formTitle')} <span className="italic">{t('contact.formTitleItalic')}</span>.
             </h2>
             <div className="mt-10 grid grid-cols-2 gap-3">
               <a
-                href="tel:+14135550100"
+                href="tel:+16045551234"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
               >
-                <Phone className="h-3.5 w-3.5" /> Call
+                <Phone className="h-3.5 w-3.5" /> {t('contact.channelCall')}
               </a>
               <a
-                href="mailto:hello@maherkhatib.com"
+                href="mailto:maher@mbcrealtors.ca"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
               >
-                <Mail className="h-3.5 w-3.5" /> Email
+                <Mail className="h-3.5 w-3.5" /> {t('contact.channelEmail')}
               </a>
             </div>
           </div>
           <div className="lg:col-span-7">
             <LeadForm
-              title="Send a Message"
-              submitLabel="Send Message"
+              title={t('contact.formTitle')}
+              submitLabel={t('contact.formSubmit')}
               fields={[
-                { name: "name", label: "Name", placeholder: "Full name" },
-                { name: "phone", label: "Phone", placeholder: "(413) 555-0100" },
-                { name: "email", label: "Email", type: "email", placeholder: "you@email.com" },
-                { name: "subject", label: "Subject", placeholder: "How can I help?" },
-                { name: "message", label: "Message", placeholder: "Tell me a bit more", textarea: true },
+                { name: "name", label: t('form.name'), placeholder: t('form.fullName') },
+                { name: "phone", label: t('form.phone'), placeholder: t('form.phonePlaceholder') },
+                { name: "email", label: t('form.email'), type: "email", placeholder: t('form.emailPlaceholder') },
+                { name: "message", label: t('form.whatCanIHelp'), placeholder: t('form.whatCanIHelpPlaceholder'), textarea: true },
               ]}
             />
           </div>
@@ -176,11 +168,11 @@ function ContactPage() {
           <div className="pointer-events-none absolute inset-y-0 left-6 flex items-center lg:left-16">
             <div className="max-w-md">
               <div className="text-[0.65rem] uppercase tracking-[0.4em] text-gold">
-                Where I Work
+                {t('contact.mapEyebrow')}
               </div>
               <h3 className="mt-6 font-serif text-5xl leading-[1.02] text-white lg:text-6xl">
-                Springfield. Granby. <br />
-                <span className="italic">Southern Maine.</span>
+                {t('contact.mapTitle')} <br />
+                <span className="italic">{t('contact.mapTitleItalic')}</span>
               </h3>
             </div>
           </div>

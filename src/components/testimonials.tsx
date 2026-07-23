@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Testimonial = {
   name: string;
@@ -10,43 +11,40 @@ type Testimonial = {
   initials: string;
 };
 
-const TESTIMONIALS: Testimonial[] = [
-  {
-    name: "Celia & David Salas",
-    role: "Sold in Granby, MA",
-    location: "Granby, Massachusetts",
-    quote:
-      "Maher guided us through every step with unmatched patience and honesty. His pricing strategy brought us three offers in a weekend — well over asking. He treats you like family, not a transaction.",
-    image:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1400&q=80",
-    initials: "CS",
-  },
-  {
-    name: "Jonathan Pereira",
-    role: "Bought in Portland, ME",
-    location: "Portland, Maine",
-    quote:
-      "Relocating from Springfield to Maine felt impossible until we met Maher. He knew every neighborhood, negotiated firmly on our behalf and made the whole process feel effortless. A true professional.",
-    image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80",
-    initials: "JP",
-  },
-  {
-    name: "Amelia Whitcomb",
-    role: "Sold & Bought · Western Mass",
-    location: "Springfield, Massachusetts",
-    quote:
-      "We interviewed four agents before choosing Maher — and we're so glad we did. Beautiful marketing, thoughtful staging advice and a closing that landed exactly when he promised. Pure luxury service.",
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1400&q=80",
-    initials: "AW",
-  },
-];
+// TESTIMONIALS will be defined inside component to access t()
 
 export function Testimonials() {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
+
+  const TESTIMONIALS: Testimonial[] = [
+    {
+      name: t('testimonials.testimonial1Name'),
+      role: t('testimonials.testimonial1Role'),
+      location: t('testimonials.testimonial1Location'),
+      quote: t('testimonials.testimonial1Quote'),
+      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1400&q=80",
+      initials: "AT",
+    },
+    {
+      name: t('testimonials.testimonial2Name'),
+      role: t('testimonials.testimonial2Role'),
+      location: t('testimonials.testimonial2Location'),
+      quote: t('testimonials.testimonial2Quote'),
+      image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80",
+      initials: "DC",
+    },
+    {
+      name: t('testimonials.testimonial3Name'),
+      role: t('testimonials.testimonial3Role'),
+      location: t('testimonials.testimonial3Location'),
+      quote: t('testimonials.testimonial3Quote'),
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1400&q=80",
+      initials: "RM",
+    },
+  ];
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -89,19 +87,16 @@ export function Testimonials() {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-gold/70" />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                Testimonials
+                {t('testimonials.eyebrow')}
               </span>
             </div>
             <h2 className="mt-8 font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[4.5rem]">
-              Real Results.
+              {t('testimonials.title')}
               <br />
-              <span className="italic text-white/85">Real Relationships.</span>
+              <span className="italic text-white/85">{t('testimonials.subtitle')}</span>
             </h2>
             <p className="mt-8 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
-              Our clients are at the heart of everything we do. From first
-              showings to final signatures, hear why families across
-              Springfield, Granby and Maine trust Maher Khatib with their most
-              important move.
+              {t('testimonials.description')}
             </p>
           </div>
 
@@ -125,7 +120,7 @@ export function Testimonials() {
                   style={{ letterSpacing: "0.35em" }}
                 >
                   <textPath href="#mk-circle" startOffset="0">
-                    Relationships · Community · Leadership ·
+                    {t('testimonials.circleText')}
                   </textPath>
                 </text>
               </svg>

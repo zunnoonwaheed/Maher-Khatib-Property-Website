@@ -14,6 +14,7 @@ import { Route as SellRouteImport } from './routes/sell'
 import { Route as OfferRouteImport } from './routes/offer'
 import { Route as NewBuildsRouteImport } from './routes/new-builds'
 import { Route as ListingsRouteImport } from './routes/listings'
+import { Route as InvestmentsRouteImport } from './routes/investments'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const ListingsRoute = ListingsRouteImport.update({
   path: '/listings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvestmentsRoute = InvestmentsRouteImport.update({
+  id: '/investments',
+  path: '/investments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/investments': typeof InvestmentsRoute
   '/listings': typeof ListingsRoute
   '/new-builds': typeof NewBuildsRoute
   '/offer': typeof OfferRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/investments': typeof InvestmentsRoute
   '/listings': typeof ListingsRoute
   '/new-builds': typeof NewBuildsRoute
   '/offer': typeof OfferRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/investments': typeof InvestmentsRoute
   '/listings': typeof ListingsRoute
   '/new-builds': typeof NewBuildsRoute
   '/offer': typeof OfferRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/investments'
     | '/listings'
     | '/new-builds'
     | '/offer'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/investments'
     | '/listings'
     | '/new-builds'
     | '/offer'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/investments'
     | '/listings'
     | '/new-builds'
     | '/offer'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  InvestmentsRoute: typeof InvestmentsRoute
   ListingsRoute: typeof ListingsRoute
   NewBuildsRoute: typeof NewBuildsRoute
   OfferRoute: typeof OfferRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/investments': {
+      id: '/investments'
+      path: '/investments'
+      fullPath: '/investments'
+      preLoaderRoute: typeof InvestmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  InvestmentsRoute: InvestmentsRoute,
   ListingsRoute: ListingsRoute,
   NewBuildsRoute: NewBuildsRoute,
   OfferRoute: OfferRoute,

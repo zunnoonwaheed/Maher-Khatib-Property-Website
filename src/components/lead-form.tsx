@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Field = { name: string; label: string; type?: string; placeholder?: string; full?: boolean; textarea?: boolean };
 
@@ -13,6 +14,7 @@ type Props = {
 
 export function LeadForm({ title, description, fields, submitLabel, variant = "charcoal" }: Props) {
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -60,7 +62,7 @@ export function LeadForm({ title, description, fields, submitLabel, variant = "c
             type="submit"
             className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform duration-300 hover:-translate-y-0.5 sm:w-auto"
           >
-            {submitted ? "Thank you — I'll be in touch" : submitLabel}
+            {submitted ? t('getYourOffer.thankYou') : submitLabel}
             <ArrowUpRight className="h-4 w-4" />
           </button>
         </div>

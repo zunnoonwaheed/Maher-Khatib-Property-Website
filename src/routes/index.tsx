@@ -11,6 +11,8 @@ import { AskMe } from "@/components/ask-me";
 import { GetYourOffer } from "@/components/get-your-offer";
 import { Footer } from "@/components/footer";
 import { CountUp } from "@/components/count-up";
+import { StickyMobileBar } from "@/components/sticky-mobile-bar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -19,19 +21,22 @@ export const Route = createFileRoute("/")({
 const HERO_VIDEO =
   "https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4";
 
-const STATS = [
-  { value: "$120M+", label: "Sold" },
-  { value: "450+", label: "Families Served" },
-  { value: "300+", label: "5 Star Reviews (Google/Zillow)" },
-  { value: "#1", label: "Agent in Western Mass" },
-];
+// STATS will be defined inside the component to access t()
 
 function Index() {
+  const { t } = useLanguage();
 
+  const STATS = [
+    { value: "$200M+", label: t('home.statSold') },
+    { value: "Top 3%", label: t('home.statAgents') },
+    { value: "450+", label: t('home.statClosed') },
+    { value: "300+", label: t('home.statReviews') },
+  ];
 
   return (
     <main className="relative">
       <SiteHeader transparentOnTop />
+      <StickyMobileBar />
 
 
 
@@ -53,21 +58,27 @@ function Index() {
         />
 
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-32 pb-10 text-center">
+          <div className="animate-hero-fade-up delay-200 mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
+            {t('home.heroEyebrow')}
+          </div>
           <h1 className="font-serif text-hero-foreground">
             <span className="animate-hero-fade-up delay-300 block text-5xl leading-[1.05] font-medium tracking-tight sm:text-7xl lg:text-[5.5rem]">
-              Real Estate, Done Right
+              {t('home.heroTitle')}
             </span>
-            <span className="animate-hero-fade-up delay-500 mt-2 block text-4xl italic leading-[1.1] font-normal sm:text-6xl lg:text-[4.5rem]">
-              from Springfield to Maine
+            <span className="animate-hero-fade-up delay-500 mt-2 block text-4xl leading-[1.1] font-normal sm:text-6xl lg:text-[4.5rem]">
+              {t('home.heroSubtitle')}
             </span>
           </h1>
+          <p className="animate-hero-fade-up delay-700 mt-8 max-w-3xl text-lg leading-relaxed text-hero-foreground-soft sm:text-xl">
+            {t('home.heroDescription')}
+          </p>
 
           <div className="animate-hero-fade-up delay-900 mt-12 flex flex-col items-center gap-4 sm:flex-row">
             <Link to="/sell" className="btn-hero-solid">
-              Sell With Maher
+              {t('nav.sellWithMaher')}
             </Link>
             <Link to="/offer" className="btn-hero-ghost">
-              Get Your Offer
+              {t('nav.getYourOffer')}
             </Link>
           </div>
 

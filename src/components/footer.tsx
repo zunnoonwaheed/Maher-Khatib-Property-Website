@@ -1,36 +1,43 @@
 import { Instagram, Facebook, Linkedin, Mail, Phone } from "lucide-react";
-
-const COLS = [
-  {
-    title: "Explore",
-    links: [
-      { label: "Communities", href: "#areas" },
-      { label: "Featured Listings", href: "#featured" },
-      { label: "New Builds", href: "#builds" },
-      { label: "Client Stories", href: "#stories" },
-    ],
-  },
-  {
-    title: "Work With Maher",
-    links: [
-      { label: "Sell With Maher", href: "#sell" },
-      { label: "Get Your Offer", href: "#offer" },
-      { label: "Buyer's Guide", href: "#buyers-guide" },
-      { label: "Home Valuation", href: "#valuation" },
-    ],
-  },
-  {
-    title: "About",
-    links: [
-      { label: "Meet Maher", href: "#about" },
-      { label: "Press", href: "#press" },
-      { label: "Careers", href: "#careers" },
-      { label: "Contact", href: "#contact" },
-    ],
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
+
+  const COLS = [
+    {
+      title: t('footer.workWithMaher'),
+      links: [
+        { label: t('nav.sellWithMaher'), href: "/sell" },
+        { label: t('nav.getYourOffer'), href: "/offer" },
+        { label: t('nav.contact'), href: "/contact" },
+      ],
+    },
+    {
+      title: t('footer.portfolio'),
+      links: [
+        { label: t('nav.investments'), href: "/investments" },
+        { label: t('nav.newBuilds'), href: "/new-builds" },
+        { label: t('nav.listings'), href: "/listings" },
+      ],
+    },
+    {
+      title: t('footer.about'),
+      links: [
+        { label: t('footer.aboutMaher'), href: "/about" },
+        { label: t('aboutMaher.clientStories'), href: "#stories" },
+        { label: t('footer.whereIWork'), href: "#areas" },
+      ],
+    },
+    {
+      title: t('footer.reachOut'),
+      links: [
+        { label: t('common.phone'), href: "tel:+16045551234" },
+        { label: t('common.email'), href: "mailto:maher@mbcrealtors.ca" },
+        { label: t('footer.bookCall'), href: "/contact" },
+      ],
+    },
+  ];
   return (
     <footer
       id="contact"
@@ -55,15 +62,14 @@ export function Footer() {
               <span className="font-serif text-2xl">Maher Khatib</span>
             </div>
             <p className="mt-8 max-w-md text-base leading-relaxed text-white/60">
-              A boutique Western Massachusetts real estate practice — quietly
-              delivering luxury results across Springfield, Granby and beyond.
+              {t('footer.description')}
             </p>
             <div className="mt-8 space-y-3 text-sm text-white/80">
-              <a href="tel:+14135550100" className="flex items-center gap-3 hover:text-gold">
-                <Phone className="h-4 w-4" /> (413) 555-0100
+              <a href="tel:+16045551234" className="flex items-center gap-3 hover:text-gold">
+                <Phone className="h-4 w-4" /> {t('common.phone')}
               </a>
-              <a href="mailto:hello@maherkhatib.com" className="flex items-center gap-3 hover:text-gold">
-                <Mail className="h-4 w-4" /> hello@maherkhatib.com
+              <a href="mailto:maher@mbcrealtors.ca" className="flex items-center gap-3 hover:text-gold">
+                <Mail className="h-4 w-4" /> {t('common.email')}
               </a>
             </div>
             <div className="mt-8 flex items-center gap-3">
@@ -80,7 +86,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 lg:col-span-7">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:col-span-7">
             {COLS.map((c) => (
               <div key={c.title}>
                 <div className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-gold">
@@ -104,11 +110,13 @@ export function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/40 sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} Maher Khatib Real Estate. All rights reserved.</div>
+          <div>
+            <div>{t('footer.license')}</div>
+            <div className="mt-2">© {new Date().getFullYear()} Maher Khatib Group. {t('footer.rights')}</div>
+          </div>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-white">Privacy</a>
-            <a href="#" className="hover:text-white">Terms</a>
-            <a href="#" className="hover:text-white">Fair Housing</a>
+            <a href="#" className="hover:text-white">{t('footer.privacy')}</a>
+            <a href="#" className="hover:text-white">{t('footer.terms')}</a>
           </div>
         </div>
       </div>

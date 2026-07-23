@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowUpRight, BedDouble, Bath, Square, MapPin } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/listings")({
   head: () => ({
@@ -11,12 +12,12 @@ export const Route = createFileRoute("/listings")({
       {
         name: "description",
         content:
-          "A curated collection of featured homes, new builds, recent sales and investment opportunities across Western Mass and Maine.",
+          "Featured homes, new builds, recent sales and investment opportunities across Massachusetts and Connecticut.",
       },
       { property: "og:title", content: "Listings — Maher Khatib" },
       {
         property: "og:description",
-        content: "Curated homes, new builds and investment opportunities.",
+        content: "Featured homes, new builds and investment opportunities.",
       },
     ],
   }),
@@ -50,20 +51,6 @@ const LISTINGS: Listing[] = [
     category: "featured",
     story:
       "A hilltop estate with unobstructed valley views, walnut millwork, and a private wooded acre.",
-  },
-  {
-    price: "$1,250,000",
-    address: "12 Harbor View",
-    city: "Portland, ME",
-    beds: 4,
-    baths: 3,
-    sqft: "3,800",
-    image:
-      "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    tag: "New",
-    category: "featured",
-    story:
-      "Steps from the working harbor. Cedar cladding, glass on three sides, salt in the air.",
   },
   {
     price: "$925,000",
@@ -114,18 +101,6 @@ const LISTINGS: Listing[] = [
     category: "sold",
   },
   {
-    price: "Sold · $820,000",
-    address: "6 Bayside Rd",
-    city: "Portland, ME",
-    beds: 3,
-    baths: 2,
-    sqft: "2,600",
-    image:
-      "https://images.pexels.com/photos/259593/pexels-photo-259593.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "Recent Sale",
-    category: "sold",
-  },
-  {
     price: "From $980,000",
     address: "The Granby Reserve",
     city: "Granby, MA",
@@ -134,18 +109,6 @@ const LISTINGS: Listing[] = [
     sqft: "3,200",
     image:
       "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "New Build",
-    category: "build",
-  },
-  {
-    price: "From $1,400,000",
-    address: "Cove Ridge Estates",
-    city: "Southern Maine",
-    beds: 4,
-    baths: 4,
-    sqft: "3,900",
-    image:
-      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1600",
     tag: "New Build",
     category: "build",
   },
@@ -175,6 +138,7 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]["key"];
 
 function ListingsPage() {
+  const { t } = useLanguage();
   const [filter, setFilter] = useState<FilterKey>("all");
   const hero = LISTINGS[0];
   const secondary = LISTINGS[1];
@@ -213,16 +177,16 @@ function ListingsPage() {
             </span>
             <span className="font-serif text-3xl text-white">{hero.price}</span>
           </div>
-          <p className="mt-6 max-w-xl text-lg text-white/70">Hilltop views. Walnut millwork. A private wooded acre.</p>
+          {hero.story && <p className="mt-6 max-w-xl text-lg text-white/70">{hero.story}</p>}
           <div className="mt-10 flex flex-wrap gap-3 text-[0.7rem] uppercase tracking-[0.28em] text-white/70">
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.beds} Bed
+              {hero.beds} {t('common.bed')}
             </span>
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.baths} Bath
+              {hero.baths} {t('common.bath')}
             </span>
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.sqft} Sqft
+              {hero.sqft} {t('common.sqft')}
             </span>
           </div>
         </div>
@@ -352,10 +316,10 @@ function ListingsPage() {
           <div className="absolute inset-0 bg-black/75" />
           <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1400px] flex-col items-start justify-center px-6 py-24 lg:px-12">
             <h2 className="max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Looking for something <span className="italic">off-market</span>?
+              Looking for something <span className="italic">not yet listed</span>?
             </h2>
             <p className="mt-6 max-w-lg text-white/70">
-              A private list of homes and land not yet listed.
+              A private list of homes and land coming soon.
             </p>
             <Link
               to="/contact"
