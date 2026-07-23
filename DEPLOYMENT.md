@@ -26,15 +26,19 @@ This guide will help you deploy the Maher Khatib Property Website to Cloudflare 
 2. **Set up builds and deployments**:
    - **Project name**: `maher-khatib-property` (or choose your own)
    - **Production branch**: `main`
+   - **Framework preset**: `None` (or select if available)
    - **Build command**: `npm run build`
    - **Build output directory**: `.output/public`
    - **Root directory**: Leave blank (use root)
+   - **Deploy command**: Leave blank (DO NOT add any deploy command)
 
 3. **Environment variables** (if needed):
    - Click **Add variable** if you have any API keys or secrets
    - For this project, none are required currently
 
 4. Click **Save and Deploy**
+
+⚠️ **IMPORTANT**: Do NOT add a deploy command like `npx wrangler deploy`. Cloudflare Pages handles deployment automatically.
 
 ### 3. Deployment Process
 
@@ -69,11 +73,19 @@ Every time you push to the `main` branch on GitHub, Cloudflare will automaticall
 The project uses:
 - **Framework**: TanStack Start with React
 - **Build system**: Vite + Nitro
-- **Target**: Cloudflare Workers (already configured in vite.config.ts)
+- **Target**: Cloudflare (already configured in vite.config.ts)
 - **SSR**: Server-side rendering enabled
 - **Output**: Static files + edge functions in `.output/public`
+- **Deploy method**: Cloudflare Pages automatic deployment (no wrangler.toml needed)
 
 ## Troubleshooting
+
+### Error: "The name 'ASSETS' is reserved in Pages projects"
+**Fix**: Remove any custom deploy command from your Cloudflare Pages settings.
+- Go to your Pages project settings
+- Under **Builds & deployments**, ensure the "Deploy command" field is EMPTY
+- Click **Save**
+- Trigger a new deployment
 
 ### Build fails
 - Check the build logs in Cloudflare dashboard
@@ -84,9 +96,10 @@ The project uses:
 - Check the build output directory is correct: `.output/public`
 - Verify the production build works locally: `npm run preview`
 
-### Environment issues
-- Add any missing environment variables in Cloudflare Pages settings
-- Ensure compatibility_date in wrangler.toml matches your needs
+### Wrong deploy command
+- DO NOT use `npx wrangler deploy` - that's for Workers, not Pages
+- Leave the deploy command field blank in Cloudflare Pages settings
+- Cloudflare Pages automatically handles deployment after build
 
 ## Support
 
