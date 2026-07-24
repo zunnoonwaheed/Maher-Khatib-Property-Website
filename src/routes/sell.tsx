@@ -60,7 +60,7 @@ function SellPage() {
   ];
 
   const RESULTS = [
-    { k: "$150M+", v: t('sell.resultsSold') },
+    { k: "$175M+", v: t('sell.resultsSold') },
     { k: "98%", v: t('sell.resultsListToClose') },
     { k: "17 days", v: t('sell.resultsDOM') },
     { k: "104%", v: t('sell.resultsAsking') },

@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { ArrowUpRight, X, Check, Minus } from "lucide-react";
+import { ArrowUpRight, Check, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { LeadForm } from "@/components/lead-form";
@@ -32,89 +31,8 @@ const BAND_VIDEO =
 const FORM_VIDEO =
   "https://videos.pexels.com/video-files/6474226/6474226-hd_1920_1080_24fps.mp4";
 
-function OfferEstimator() {
-  const { t } = useLanguage();
-  const [value, setValue] = useState(450);
-  const low = Math.round(value * 0.86);
-  const high = Math.round(value * 0.94);
-  const fmt = (n: number) => `$${n.toLocaleString()}K`;
-  return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-[#050505] py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
-      </div>
-      <div className="relative mx-auto grid max-w-[1700px] grid-cols-1 gap-16 px-6 lg:grid-cols-12 lg:gap-24 lg:px-12">
-        <div className="lg:col-span-5">
-          <div className="flex items-center gap-3">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-            </span>
-            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              {t('offer.estimatorEyebrow')}
-            </span>
-          </div>
-          <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-            {t('offer.estimatorTitle')} <br />
-            <span className="italic">{t('offer.estimatorTitleItalic')}</span>
-          </h2>
-          <p className="mt-6 max-w-md text-white/60">
-            {t('offer.estimatorDesc')}
-          </p>
-        </div>
-        <div className="lg:col-span-7">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black p-8 lg:p-12">
-            <div className="flex items-baseline justify-between">
-              <div className="text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
-                {t('offer.estimatorLabel')}
-              </div>
-              <div className="font-serif text-4xl text-white lg:text-5xl">{fmt(value)}</div>
-            </div>
-            <input
-              type="range"
-              min={150}
-              max={2000}
-              step={10}
-              value={value}
-              onChange={(e) => setValue(Number(e.target.value))}
-              className="mt-8 w-full accent-[oklch(0.78_0.11_85)]"
-              aria-label={t('offer.estimatorLabel')}
-            />
-            <div className="mt-3 flex justify-between text-[0.6rem] uppercase tracking-[0.28em] text-white/30">
-              <span>$150K</span>
-              <span>$2M</span>
-            </div>
-            <div className="mt-10 grid grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
-                <div className="text-[0.6rem] uppercase tracking-[0.32em] text-white/40">
-                  {t('offer.estimatorLow')}
-                </div>
-                <div className="mt-4 font-serif text-4xl text-white">{fmt(low)}</div>
-              </div>
-              <div className="rounded-2xl border border-gold/40 bg-gradient-to-br from-black to-[#141008] p-6">
-                <div className="text-[0.6rem] uppercase tracking-[0.32em] text-gold">
-                  {t('offer.estimatorHigh')}
-                </div>
-                <div className="mt-4 font-serif text-4xl text-white">{fmt(high)}</div>
-              </div>
-            </div>
-            <a
-              href="#offer-form"
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-3.5 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
-            >
-              {t('offer.estimatorCTA')} <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function OfferPage() {
   const { t } = useLanguage();
-  const [popup, setPopup] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
 
   const HOW = [
     {
@@ -173,17 +91,6 @@ function OfferPage() {
       img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1400",
     },
   ];
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (dismissed || popup) return;
-      const scrolled = window.scrollY + window.innerHeight;
-      const threshold = document.body.scrollHeight * 0.66;
-      if (scrolled >= threshold) setPopup(true);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [popup, dismissed]);
 
   return (
     <main className="relative bg-black">
@@ -352,9 +259,6 @@ function OfferPage() {
         </div>
       </section>
 
-      {/* Signature: Instant Offer Estimator */}
-      <OfferEstimator />
-
       {/* Who this is for — imagery bento */}
       <section className="border-t border-white/5 py-24 lg:py-32">
         <div className="mx-auto mb-16 max-w-[1600px] px-6 lg:px-12">
@@ -456,40 +360,6 @@ function OfferPage() {
       </section>
 
       <Footer />
-
-      {popup && !dismissed ? (
-        <div className="fixed inset-x-4 bottom-4 z-40 sm:inset-x-auto sm:right-6 sm:bottom-6 sm:max-w-md">
-          <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-black/95 p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] backdrop-blur-xl">
-            <button
-              type="button"
-              aria-label="Close"
-              onClick={() => {
-                setPopup(false);
-                setDismissed(true);
-              }}
-              className="absolute right-4 top-4 rounded-full border border-white/15 p-2 text-white/70 hover:text-white"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <div className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-gold">
-              {t('offer.estimatorEyebrow')}
-            </div>
-            <h3 className="mt-4 font-serif text-2xl leading-tight text-white">
-              {t('offer.popupTitle')}
-            </h3>
-            <a
-              href="#offer-form"
-              onClick={() => {
-                setPopup(false);
-                setDismissed(true);
-              }}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black"
-            >
-              {t('offer.popupCTA')} <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      ) : null}
     </main>
   );
 }

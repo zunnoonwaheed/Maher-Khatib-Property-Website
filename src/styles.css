@@ -484,4 +484,46 @@
   animation: hairline-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* ---------- Go High Level Chat Widget Customization ---------- */
+/* Override chat widget colors to match website gold theme */
+
+/* Widget button/launcher */
+iframe[id*="chat-widget"],
+iframe[id*="leadconnector"] {
+  z-index: 9998 !important;
+}
+
+/* Try to override widget colors via CSS variables if exposed */
+:root {
+  --chat-widget-primary: oklch(0.78 0.11 85) !important;
+  --chat-widget-primary-hover: oklch(0.82 0.12 85) !important;
+}
+
+/* Additional overrides for common chat widget classes */
+[class*="chat-widget"] [class*="button"],
+[class*="chat-widget"] [class*="launcher"],
+[class*="leadconnector"] [class*="button"] {
+  background-color: oklch(0.78 0.11 85) !important;
+  border-color: oklch(0.78 0.11 85) !important;
+}
+
+[class*="chat-widget"] [class*="button"]:hover,
+[class*="chat-widget"] [class*="launcher"]:hover,
+[class*="leadconnector"] [class*="button"]:hover {
+  background-color: oklch(0.82 0.12 85) !important;
+  border-color: oklch(0.82 0.12 85) !important;
+}
+
+/* Header styling */
+[class*="chat-widget"] [class*="header"],
+[class*="leadconnector"] [class*="header"] {
+  background-color: oklch(0.78 0.11 85) !important;
+}
+
+/* Send button styling */
+[class*="chat-widget"] [class*="send"],
+[class*="leadconnector"] [class*="send"] {
+  background-color: oklch(0.78 0.11 85) !important;
+}
+
 

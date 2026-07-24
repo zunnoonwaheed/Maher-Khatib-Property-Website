@@ -8,7 +8,6 @@ import { ServiceAreas } from "@/components/service-areas";
 import { FindYourPlace } from "@/components/find-your-place";
 import { FeaturedListings } from "@/components/featured-listings";
 import { AskMe } from "@/components/ask-me";
-import { GetYourOffer } from "@/components/get-your-offer";
 import { Footer } from "@/components/footer";
 import { CountUp } from "@/components/count-up";
 import { StickyMobileBar } from "@/components/sticky-mobile-bar";
@@ -27,10 +26,9 @@ function Index() {
   const { t } = useLanguage();
 
   const STATS = [
-    { value: "$200M+", label: t('home.statSold') },
+    { value: "$175M+", label: t('home.statSold') },
     { value: "Top 3%", label: t('home.statAgents') },
-    { value: "450+", label: t('home.statClosed') },
-    { value: "300+", label: t('home.statReviews') },
+    { value: "30+", label: t('home.statExperience') },
   ];
 
   return (
@@ -85,7 +83,7 @@ function Index() {
         </div>
 
         <div className="relative z-10 px-6 pb-16">
-          <div className="animate-hero-fade delay-1100 mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+          <div className="animate-hero-fade delay-1100 mx-auto grid max-w-6xl grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
             {STATS.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="font-serif text-5xl font-medium text-hero-foreground sm:text-6xl">
@@ -114,8 +112,6 @@ function Index() {
       <FeaturedListings />
       <Testimonials />
       <AskMe />
-      <GetYourOffer />
-      
       <Footer />
     </main>
   );

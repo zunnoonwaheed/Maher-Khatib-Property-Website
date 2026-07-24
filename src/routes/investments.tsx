@@ -105,52 +105,6 @@ function InvestmentsPage() {
         </div>
       </section>
 
-      {/* Track Record Section - PLACEHOLDER */}
-      <section className="relative overflow-hidden border-t border-white/5 bg-[#050505] py-24 lg:py-32">
-        <div className="mx-auto max-w-[1700px] px-6 lg:px-12">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-10 bg-gold" />
-              <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-                {t('investments.trackRecordEyebrow')}
-              </span>
-            </div>
-            <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
-              {t('investments.trackRecordTitle')} <span className="italic">{t('investments.trackRecordTitleItalic')}</span>.
-            </h2>
-            <p className="mt-6 text-lg text-white/60">
-              {t('investments.trackRecordDesc')}
-            </p>
-          </div>
-
-          {/* Placeholder for case studies */}
-          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black p-10">
-              <div className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-gold">
-                {t('investments.trackRecordCase1')}
-              </div>
-              <h3 className="mt-4 font-serif text-3xl text-white">
-                {t('investments.trackRecordCase1Title')}
-              </h3>
-              <p className="mt-4 text-white/60">
-                {t('investments.trackRecordCase1Desc')}
-              </p>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black p-10">
-              <div className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-gold">
-                {t('investments.trackRecordCase2')}
-              </div>
-              <h3 className="mt-4 font-serif text-3xl text-white">
-                {t('investments.trackRecordCase2Title')}
-              </h3>
-              <p className="mt-4 text-white/60">
-                {t('investments.trackRecordCase2Desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Active Deal Book */}
       <section className="relative overflow-hidden border-t border-white/5 py-24 lg:py-32">
         <div className="pointer-events-none absolute inset-0 opacity-40">
@@ -218,14 +172,14 @@ function InvestmentsPage() {
             ].map((d) => (
               <article
                 key={d.tag + d.loc}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black transition-colors hover:border-gold/40"
+                className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black"
               >
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={d.img}
                     alt=""
                     loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-6">
@@ -250,12 +204,6 @@ function InvestmentsPage() {
                       </div>
                     ))}
                   </dl>
-                  <a
-                    href="#investor"
-                    className="mt-8 inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/70 transition-colors hover:text-gold"
-                  >
-                    {t('investments.dealBookRequestDeck')} <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
                 </div>
               </article>
             ))}

@@ -1,4 +1,3 @@
-import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function WhatIDo() {
@@ -11,7 +10,6 @@ export function WhatIDo() {
       copy: t('whatIDo.sellDesc'),
       image:
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-      href: "/sell",
     },
     {
       tag: `02 · ${t('whatIDo.offerTitle')}`,
@@ -19,7 +17,6 @@ export function WhatIDo() {
       copy: t('whatIDo.offerDesc'),
       image:
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
-      href: "/offer",
     },
     {
       tag: `03 · ${t('whatIDo.investmentsTitle')}`,
@@ -27,7 +24,6 @@ export function WhatIDo() {
       copy: t('whatIDo.investmentsDesc'),
       image:
         "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80",
-      href: "/investments",
     },
     {
       tag: `04 · ${t('whatIDo.newBuildsTitle')}`,
@@ -35,7 +31,6 @@ export function WhatIDo() {
       copy: t('whatIDo.newBuildsDesc'),
       image:
         "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1600&q=80",
-      href: "/new-builds",
     },
   ];
   return (
@@ -60,20 +55,19 @@ export function WhatIDo() {
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((s) => (
-            <a
+            <article
               key={s.title}
-              href={s.href}
-              className="group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-3xl border border-white/10"
+              className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-3xl border border-white/10"
             >
               <img
                 src={s.image}
                 alt={s.title}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-110"
+                className="pointer-events-none absolute inset-0 h-full w-full object-cover"
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40 transition-opacity duration-500 group-hover:from-black/90"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40"
               />
               <div className="relative p-8">
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-gold">
@@ -87,12 +81,8 @@ export function WhatIDo() {
                 <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
                   {s.copy}
                 </p>
-                <div className="mt-8 inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white transition-all duration-300 group-hover:gap-4 group-hover:text-gold">
-                  {t('whatIDo.explore')}
-                  <ArrowUpRight className="h-4 w-4" />
-                </div>
               </div>
-            </a>
+            </article>
           ))}
         </div>
       </div>

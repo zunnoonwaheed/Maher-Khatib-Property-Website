@@ -73,17 +73,16 @@ export function FeaturedListings() {
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {LISTINGS.map((l) => (
-            <a
+            <article
               key={l.address}
-              href="#"
-              className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111] transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:shadow-[0_40px_100px_-30px_rgba(212,175,55,0.35)]"
+              className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111]"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
                 <img
                   src={l.image}
                   alt={l.address}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                  className="pointer-events-none h-full w-full object-cover"
                 />
                 <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/70 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-gold backdrop-blur-md">
                   {l.tag}
@@ -104,7 +103,7 @@ export function FeaturedListings() {
                   </span>
                 </div>
               </div>
-            </a>
+            </article>
           ))}
         </div>
       </div>

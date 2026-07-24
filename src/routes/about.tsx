@@ -32,7 +32,6 @@ const MARQUEE_A = [
   "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.pexels.com/photos/2129796/pexels-photo-2129796.jpeg?auto=compress&cs=tinysrgb&w=1200",
 ];
 
 function AboutPage() {
@@ -63,10 +62,9 @@ function AboutPage() {
   ];
 
   const STATS = [
-    { v: "$200M+", l: t('about.statsSold') },
+    { v: "$175M+", l: t('about.statsSold') },
     { v: "Top 3%", l: t('about.statsAgents') },
-    { v: "450+", l: t('about.statsClosed') },
-    { v: "20+ yrs", l: t('about.statsExperience') },
+    { v: "30+", l: t('about.statsExperience') },
   ];
 
   return (
@@ -113,7 +111,7 @@ function AboutPage() {
 
         <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-black/40 backdrop-blur-md">
           <div
-            className="mx-auto grid max-w-[1700px] grid-cols-2 divide-x divide-white/10 px-6 lg:grid-cols-4 lg:px-12"
+            className="mx-auto grid max-w-[1700px] grid-cols-1 divide-x divide-white/10 px-6 sm:grid-cols-3 lg:px-12"
             data-stagger
           >
             {STATS.map((s) => (
@@ -253,7 +251,6 @@ function AboutPage() {
       </section>
 
       <Testimonials />
-
 
       {/* Cinematic CTA */}
       <section className="relative overflow-hidden">

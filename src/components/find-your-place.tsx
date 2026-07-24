@@ -82,19 +82,18 @@ export function FindYourPlace() {
           className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 scrollbar-hide"
         >
           {cards.map((card) => (
-            <a
+            <article
               key={card.id}
-              href="#contact"
-              className="group relative w-[260px] flex-shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#111] transition-all duration-500 hover:border-white/25 sm:w-[320px] lg:w-[380px]"
+              className="relative w-[260px] flex-shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#111] sm:w-[320px] lg:w-[380px]"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
                 <img
                   src={card.image}
                   alt={card.name}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                  className="pointer-events-none h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 w-full p-5">
                   <span className="font-serif text-xl text-white sm:text-2xl">
@@ -102,7 +101,7 @@ export function FindYourPlace() {
                   </span>
                 </div>
               </div>
-            </a>
+            </article>
           ))}
         </div>
 

@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider, useLanguage } from "../contexts/LanguageContext";
+import { InstantEstimatePopup } from "../components/instant-estimate-popup";
 
 function NotFoundComponent() {
   const { t } = useLanguage();
@@ -112,6 +113,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
       },
     ],
+    scripts: [
+      {
+        src: "https://widgets.leadconnectorhq.com/loader.js",
+        "data-resources-url": "https://widgets.leadconnectorhq.com/chat-widget/loader.js",
+        "data-widget-id": "6a15f43cc10806bf1912b1c9",
+        "data-source": "WEB_USER",
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -190,6 +199,7 @@ function RootComponent() {
       <LanguageProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <InstantEstimatePopup />
       </LanguageProvider>
     </QueryClientProvider>
   );

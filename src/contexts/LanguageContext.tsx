@@ -96,6 +96,7 @@ const translations = {
       statAgents: 'Of all agents in MA',
       statClosed: 'Properties Closed',
       statReviews: '5-Star Reviews',
+      statExperience: 'Years of Experience',
     },
     aboutMaher: {
       eyebrow: 'About Maher',
@@ -415,7 +416,7 @@ const translations = {
       statsSold: 'Sold',
       statsAgents: 'Of all agents in MA',
       statsClosed: 'Properties Closed',
-      statsExperience: 'Experience',
+      statsExperience: 'Years of Experience',
       bioEyebrow: 'Biography',
       bioPara1: 'Maher Khatib has spent more than 30 years in Metro Vancouver, BC real estate.',
       bioPara2: 'He works across homes, multi-family buildings, commercial property, and land. He has also run construction projects from the first permit through to the final walkthrough, which means he sees a property the way a builder does and prices it the way a broker does.',
@@ -519,6 +520,7 @@ const translations = {
       statAgents: 'De todos los agentes en MA',
       statClosed: 'Propiedades Cerradas',
       statReviews: 'Reseñas de 5 Estrellas',
+      statExperience: 'Años de Experiencia',
     },
     aboutMaher: {
       eyebrow: 'Acerca de Maher',
@@ -838,7 +840,7 @@ const translations = {
       statsSold: 'Vendido',
       statsAgents: 'De todos los agentes en MA',
       statsClosed: 'Propiedades Cerradas',
-      statsExperience: 'Experiencia',
+      statsExperience: 'Años de Experiencia',
       bioEyebrow: 'Biografía',
       bioPara1: 'Maher Khatib ha pasado más de 30 años en bienes raíces de Metro Vancouver, BC.',
       bioPara2: 'Trabaja en casas, edificios multifamiliares, propiedad comercial y terrenos. También ha dirigido proyectos de construcción desde el primer permiso hasta la inspección final, lo que significa que ve una propiedad como lo hace un constructor y la cotiza como lo hace un corredor.',
