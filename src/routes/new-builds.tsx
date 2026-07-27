@@ -229,22 +229,22 @@ function NewBuildsPage() {
             </span>
             <span className="h-px w-10 bg-gold" />
           </div>
-          <h2 className="mt-8 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
+          <h2 className="mt-8 font-serif text-4xl leading-[1.02] tracking-tight text-white sm:text-5xl lg:text-6xl">
             {t('newBuilds.ctaTitle')} <span className="italic">{t('newBuilds.ctaTitleItalic')}</span>.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/60">
             {t('newBuilds.ctaDesc')}
           </p>
-          <div className="mt-10 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mx-auto mt-10 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               to="/contact"
-              className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black hover:bg-gold/90 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-3 whitespace-nowrap rounded-full bg-gold px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black hover:bg-gold/90 sm:w-auto"
             >
               {t('newBuilds.ctaCTA')} <ArrowUpRight className="h-4 w-4" />
             </Link>
             <a
               href="tel:+16045551234"
-              className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-white/30 px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-3 whitespace-nowrap rounded-full border border-white/30 px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold sm:w-auto"
             >
               {t('common.phone')}
             </a>
