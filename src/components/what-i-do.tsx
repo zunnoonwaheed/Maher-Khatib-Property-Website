@@ -8,29 +8,25 @@ export function WhatIDo() {
       tag: `01 · ${t('whatIDo.sellTitle')}`,
       title: t('whatIDo.sellTitle'),
       copy: t('whatIDo.sellDesc'),
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+      image: "/home/Sell With Maher.png",
     },
     {
       tag: `02 · ${t('whatIDo.offerTitle')}`,
       title: t('whatIDo.offerTitle'),
       copy: t('whatIDo.offerDesc'),
-      image:
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+      image: "/home/Get Your Offer.png",
     },
     {
       tag: `03 · ${t('whatIDo.investmentsTitle')}`,
       title: t('whatIDo.investmentsTitle'),
       copy: t('whatIDo.investmentsDesc'),
-      image:
-        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80",
+      image: "/home/Investments.png",
     },
     {
       tag: `04 · ${t('whatIDo.newBuildsTitle')}`,
       title: t('whatIDo.newBuildsTitle'),
       copy: t('whatIDo.newBuildsDesc'),
-      image:
-        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1600&q=80",
+      image: "/home/New Builds.png",
     },
   ];
   return (

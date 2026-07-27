@@ -10,7 +10,6 @@ import { FeaturedListings } from "@/components/featured-listings";
 import { AskMe } from "@/components/ask-me";
 import { Footer } from "@/components/footer";
 import { CountUp } from "@/components/count-up";
-import { StickyMobileBar } from "@/components/sticky-mobile-bar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Route = createFileRoute("/")({
@@ -18,7 +17,7 @@ export const Route = createFileRoute("/")({
 });
 
 const HERO_VIDEO =
-  "https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4";
+  "/home/Hero Video .mp4";
 
 // STATS will be defined inside the component to access t()
 
@@ -34,7 +33,6 @@ function Index() {
   return (
     <main className="relative">
       <SiteHeader transparentOnTop />
-      <StickyMobileBar />
 
 
 
@@ -71,11 +69,11 @@ function Index() {
             {t('home.heroDescription')}
           </p>
 
-          <div className="animate-hero-fade-up delay-900 mt-12 flex flex-col items-center gap-4 sm:flex-row">
-            <Link to="/sell" className="btn-hero-solid">
+          <div className="animate-hero-fade-up delay-900 mt-12 flex w-full max-w-md flex-col gap-4 sm:flex-row">
+            <Link to="/sell" className="btn-hero-solid w-full justify-center sm:w-auto">
               {t('nav.sellWithMaher')}
             </Link>
-            <Link to="/offer" className="btn-hero-ghost">
+            <Link to="/offer" className="btn-hero-ghost w-full justify-center sm:w-auto">
               {t('nav.getYourOffer')}
             </Link>
           </div>
@@ -94,12 +92,6 @@ function Index() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
-          <div className="animate-scroll-pulse flex h-10 w-6 items-start justify-center rounded-full border border-hero-foreground/40 pt-2">
-            <span className="h-2 w-0.5 rounded-full bg-hero-foreground/80" />
           </div>
         </div>
       </section>

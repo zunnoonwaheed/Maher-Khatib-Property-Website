@@ -31,32 +31,32 @@ function NewBuildsPage() {
       n: "01",
       t: t('newBuilds.processPhase1Title'),
       d: t('newBuilds.processPhase1Desc'),
-      img: "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/new builds/Land.png",
     },
     {
       n: "02",
       t: t('newBuilds.processPhase2Title'),
       d: t('newBuilds.processPhase2Desc'),
-      img: "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/new builds/Permits and Plans.png",
     },
     {
       n: "03",
       t: t('newBuilds.processPhase3Title'),
       d: t('newBuilds.processPhase3Desc'),
-      img: "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/new builds/Build.png",
     },
     {
       n: "04",
       t: t('newBuilds.processPhase4Title'),
       d: t('newBuilds.processPhase4Desc'),
-      img: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/new builds/Sale.png",
     },
   ];
 
   const PROJECTS = [
     {
       span: "lg:col-span-8 lg:row-span-2",
-      img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      img: "/new builds/Granby, MA.png",
       town: "Granby, MA",
       lotSize: "12 acres",
       status: t('newBuilds.projectStatus'),
@@ -64,7 +64,7 @@ function NewBuildsPage() {
     },
     {
       span: "lg:col-span-4",
-      img: "https://images.pexels.com/photos/2131970/pexels-photo-2131970.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/new builds/Springfield, MA.png",
       town: "Springfield, MA",
       lotSize: "TBD",
       status: "Details to come",
@@ -80,7 +80,7 @@ function NewBuildsPage() {
       <section className="relative h-screen min-h-[720px] w-full overflow-hidden">
         <div className="absolute inset-0 animate-ken-burns">
           <img
-            src="https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=2400"
+            src="/new builds/Build.png"
             alt=""
             className="h-full w-full object-cover"
           />
@@ -93,8 +93,8 @@ function NewBuildsPage() {
               {t('newBuilds.eyebrow')}
             </span>
           </div>
-          <h1 className="mt-8 max-w-6xl font-serif text-6xl leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-[7.5rem]">
-            {t('newBuilds.heroTitle')} <br />
+          <h1 className="mt-8 max-w-6xl font-serif text-5xl leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-[7.5rem]">
+            {t('newBuilds.heroTitle')} <br className="hidden sm:block" />
             <span className="italic">{t('newBuilds.heroTitleItalic')}</span>
           </h1>
           <p className="mt-8 max-w-xl text-lg text-white/70">
@@ -102,7 +102,7 @@ function NewBuildsPage() {
           </p>
           <a
             href="#projects"
-            className="mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform duration-300 hover:-translate-y-0.5"
+            className="mt-10 inline-flex w-full max-w-md items-center justify-center gap-3 rounded-full bg-gold px-9 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform duration-300 hover:-translate-y-0.5 sm:w-auto"
           >
             {t('newBuilds.heroCTA')} <ArrowUpRight className="h-4 w-4" />
           </a>
@@ -216,7 +216,7 @@ function NewBuildsPage() {
       {/* Contact CTA */}
       <section className="relative overflow-hidden border-t border-white/5 py-24 lg:py-32">
         <img
-          src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=2400"
+          src="/new builds/Land.png"
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-15"
         />
@@ -235,16 +235,16 @@ function NewBuildsPage() {
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/60">
             {t('newBuilds.ctaDesc')}
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black hover:bg-gold/90"
+              className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black hover:bg-gold/90 sm:w-auto"
             >
               {t('newBuilds.ctaCTA')} <ArrowUpRight className="h-4 w-4" />
             </Link>
             <a
               href="tel:+16045551234"
-              className="inline-flex items-center gap-3 rounded-full border border-white/30 px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
+              className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-white/30 px-8 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold sm:w-auto"
             >
               {t('common.phone')}
             </a>

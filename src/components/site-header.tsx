@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, ArrowUpRight, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 type NavLink = { label: string; to: string };
@@ -64,13 +64,12 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
       >
         <div className="mx-auto flex h-20 max-w-[1700px] items-center justify-between px-6 lg:px-10">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <span className="grid h-12 w-12 place-items-center rounded-full border border-white/70 font-serif text-xl leading-none text-white">
-              MK
-            </span>
-            <span className="font-serif text-[1.35rem] font-medium tracking-wide text-white">
-              Maher Khatib
-            </span>
+          <Link to="/" className="flex items-center">
+            <img
+              src="/logo.png"
+              alt="Maher Khatib"
+              className="h-16 w-auto object-contain md:h-20"
+            />
           </Link>
 
           {/* Center nav */}
@@ -101,8 +100,8 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
 
           {/* Right actions */}
           <div className="flex items-center gap-3">
-            {/* Language Selector */}
-            <div className="hidden items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 backdrop-blur-sm md:flex">
+            {/* Language Selector - Desktop */}
+            <div className="hidden items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 backdrop-blur-sm lg:flex">
               <button
                 onClick={() => setLanguage('en')}
                 className={`rounded-full px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-all ${
@@ -124,9 +123,33 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
                 ES
               </button>
             </div>
+
+            {/* Language Selector - Mobile */}
+            <div className="flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2 backdrop-blur-sm lg:hidden">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`rounded-full px-2 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-all ${
+                  language === 'en'
+                    ? 'bg-gold text-black'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage('es')}
+                className={`rounded-full px-2 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-all ${
+                  language === 'es'
+                    ? 'bg-gold text-black'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                ES
+              </button>
+            </div>
             <Link
               to="/offer"
-              className="hidden items-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-black transition-transform duration-300 hover:-translate-y-0.5 md:inline-flex"
+              className="hidden items-center gap-2 rounded-full bg-gold px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-black transition-transform duration-300 hover:-translate-y-0.5 xl:inline-flex"
             >
               {t('nav.getYourOffer')}
             </Link>
@@ -193,45 +216,6 @@ export function SiteHeader({ transparentOnTop = true }: Props) {
             })}
           </nav>
 
-          <div className="mt-10">
-            <Link
-              to="/offer"
-              onClick={() => setMobileOpen(false)}
-              className="flex w-full items-center justify-center gap-3 rounded-full bg-gold px-8 py-5 text-xs font-semibold uppercase tracking-[0.24em] text-black"
-            >
-              {t('nav.getYourOffer')}
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-            <div className="mt-6 flex items-center justify-between text-[0.7rem] uppercase tracking-[0.3em] text-white/50">
-              <a href="tel:+16045551234" className="hover:text-white">
-                {t('contact.phone')}
-              </a>
-              <a href="mailto:maher@mbcrealtors.ca" className="hover:text-white">
-                {t('contact.email')}
-              </a>
-            </div>
-            {/* Mobile Language Selector */}
-            <div className="mt-6 flex items-center justify-center gap-2">
-              <Globe className="h-4 w-4 text-white/50" />
-              <button
-                onClick={() => setLanguage('en')}
-                className={`px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${
-                  language === 'en' ? 'text-gold' : 'text-white/50'
-                }`}
-              >
-                English
-              </button>
-              <span className="text-white/30">|</span>
-              <button
-                onClick={() => setLanguage('es')}
-                className={`px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] ${
-                  language === 'es' ? 'text-gold' : 'text-white/50'
-                }`}
-              >
-                Español
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </>

@@ -40,7 +40,7 @@ type Listing = {
 const LISTINGS: Listing[] = [
   {
     price: "$1,850,000",
-    address: "48 Ridgeview Lane",
+    address: "Ridgeview Estate",
     city: "Longmeadow, MA",
     beds: 5,
     baths: 4,
@@ -54,7 +54,7 @@ const LISTINGS: Listing[] = [
   },
   {
     price: "$925,000",
-    address: "230 Amherst Rd",
+    address: "Amherst Road Home",
     city: "Granby, MA",
     beds: 4,
     baths: 3,
@@ -66,7 +66,7 @@ const LISTINGS: Listing[] = [
   },
   {
     price: "$675,000",
-    address: "9 Elm Court",
+    address: "Elm Court Residence",
     city: "Springfield, MA",
     beds: 3,
     baths: 2,
@@ -78,7 +78,7 @@ const LISTINGS: Listing[] = [
   },
   {
     price: "$540,000",
-    address: "78 Pine Ridge",
+    address: "Pine Ridge Home",
     city: "Wilbraham, MA",
     beds: 3,
     baths: 2,
@@ -90,7 +90,7 @@ const LISTINGS: Listing[] = [
   },
   {
     price: "Sold · $1,120,000",
-    address: "14 Sunset Ave",
+    address: "Sunset Avenue",
     city: "Longmeadow, MA",
     beds: 4,
     baths: 3,
@@ -202,7 +202,7 @@ function ListingsPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
         </div>
-        <div className="flex items-center bg-black px-8 py-24 lg:col-span-5 lg:px-16">
+        <div className="flex items-start bg-black px-8 py-16 lg:col-span-5 lg:px-16">
           <div>
             <div className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-gold">
               {secondary.tag}
@@ -225,24 +225,26 @@ function ListingsPage() {
 
       {/* Filter bar */}
       <section className="border-b border-white/5 bg-[#080808] py-8">
-        <div className="mx-auto flex max-w-[1700px] flex-wrap items-center gap-3 px-6 lg:px-12">
-          <span className="mr-4 text-[0.65rem] uppercase tracking-[0.4em] text-white/40">
-            Collection
-          </span>
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              type="button"
-              onClick={() => setFilter(f.key)}
-              className={`rounded-full border px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.24em] transition-colors ${
-                filter === f.key
-                  ? "border-gold bg-gold text-black"
-                  : "border-white/15 text-white/70 hover:border-white/40 hover:text-white"
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
+        <div className="mx-auto max-w-[1700px] px-6 lg:px-12">
+          <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+            <span className="flex-shrink-0 text-[0.65rem] uppercase tracking-[0.4em] text-white/40">
+              Collection
+            </span>
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setFilter(f.key)}
+                className={`flex-shrink-0 rounded-full border px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.24em] transition-colors ${
+                  filter === f.key
+                    ? "border-gold bg-gold text-black"
+                    : "border-white/15 text-white/70 hover:border-white/40 hover:text-white"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -309,7 +311,7 @@ function ListingsPage() {
 
         <div className="relative min-h-[520px] w-full">
           <img
-            src="https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=2400"
+            src="/Get Your Offer/Private sale.png"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />

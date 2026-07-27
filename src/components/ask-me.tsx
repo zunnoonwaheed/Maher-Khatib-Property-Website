@@ -9,7 +9,7 @@ export function AskMe() {
       className="relative overflow-hidden py-24 lg:py-32"
     >
       <img
-        src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1800&q=80"
+        src="/home/Tell me about your property..png"
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"

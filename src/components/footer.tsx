@@ -32,8 +32,8 @@ export function Footer() {
     {
       title: t('footer.reachOut'),
       links: [
-        { label: t('common.phone'), href: "tel:+16045551234" },
-        { label: t('common.email'), href: "mailto:maher@mbcrealtors.ca" },
+        { label: t('common.phone'), href: "tel:+14133607400" },
+        { label: t('common.email'), href: "mailto:realtorsmbc@gmail.com" },
         { label: t('footer.bookCall'), href: "/contact" },
       ],
     },
@@ -55,20 +55,21 @@ export function Footer() {
 
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 place-items-center rounded-full border border-white/60 font-serif text-xl">
-                MK
-              </span>
-              <span className="font-serif text-2xl">Maher Khatib</span>
+            <div className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Maher Khatib"
+                className="h-20 w-auto object-contain md:h-28 lg:h-32"
+              />
             </div>
             <p className="mt-8 max-w-md text-base leading-relaxed text-white/60">
               {t('footer.description')}
             </p>
             <div className="mt-8 space-y-3 text-sm text-white/80">
-              <a href="tel:+16045551234" className="flex items-center gap-3 hover:text-gold">
+              <a href="tel:+14133607400" className="flex items-center gap-3 hover:text-gold">
                 <Phone className="h-4 w-4" /> {t('common.phone')}
               </a>
-              <a href="mailto:maher@mbcrealtors.ca" className="flex items-center gap-3 hover:text-gold">
+              <a href="mailto:realtorsmbc@gmail.com" className="flex items-center gap-3 hover:text-gold">
                 <Mail className="h-4 w-4" /> {t('common.email')}
               </a>
             </div>
@@ -86,7 +87,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:col-span-7">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:col-span-7">
             {COLS.map((c) => (
               <div key={c.title}>
                 <div className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-gold">

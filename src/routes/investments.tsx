@@ -35,7 +35,7 @@ function InvestmentsPage() {
       <section className="relative h-screen min-h-[720px] w-full overflow-hidden">
         <div className="absolute inset-0 animate-ken-burns">
           <img
-            src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=2400"
+            src="/investment-hero.jpg"
             alt=""
             className="h-full w-full object-cover"
           />
@@ -214,7 +214,7 @@ function InvestmentsPage() {
       {/* Investor form */}
       <section id="investor" className="relative overflow-hidden py-24 lg:py-32">
         <img
-          src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=2400"
+          src="/investment-hero.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-15"
         />

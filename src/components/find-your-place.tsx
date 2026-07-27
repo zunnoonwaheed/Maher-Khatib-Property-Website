@@ -6,11 +6,11 @@ const STATES = ["Massachusetts", "Connecticut"];
 
 const AREA_CARDS: Record<string, { id: string; name: string; image: string }[]> = {
   Massachusetts: [
-    { id: "ma-1", name: "Springfield, MA", image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80" },
-    { id: "ma-2", name: "Granby, MA", image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80" },
-    { id: "ma-3", name: "Longmeadow, MA", image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80" },
-    { id: "ma-4", name: "Westfield, MA", image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80" },
-    { id: "ma-5", name: "Chicopee, MA", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" },
+    { id: "ma-1", name: "Springfield, MA", image: "/home/Springfield, MA.png" },
+    { id: "ma-2", name: "Granby, MA", image: "/home/Granby, MA.png" },
+    { id: "ma-3", name: "Longmeadow, MA", image: "/home/Longmeadow, MA.png" },
+    { id: "ma-4", name: "Westfield, MA", image: "/home/Westfield, MA.png" },
+    { id: "ma-5", name: "Chicopee, MA", image: "/home/Chicopee, MA.png" },
   ],
   Connecticut: [
     { id: "ct-1", name: "Hartford, CT", image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80" },
@@ -47,7 +47,7 @@ export function FindYourPlace() {
         </div>
 
         {/* State tabs */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+        <div className="mx-auto mt-12 flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row">
           {STATES.map((state) => {
             const isActive = state === active;
             return (
@@ -57,7 +57,7 @@ export function FindYourPlace() {
                   setActive(state);
                   scrollRef.current?.scrollTo({ left: 0, behavior: "smooth" });
                 }}
-                className={`group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
+                className={`group inline-flex w-full items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 sm:w-auto ${
                   isActive
                     ? "border-white bg-white text-black"
                     : "border-white/25 bg-transparent text-white hover:border-white/60 hover:bg-white/5"

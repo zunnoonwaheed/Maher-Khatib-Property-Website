@@ -7,7 +7,7 @@ export function FeaturedListings() {
   const LISTINGS = [
     {
       price: "$1,485,000",
-      address: "42 Longmeadow Ridge, Longmeadow MA",
+      address: "Longmeadow, MA",
       beds: 5,
       baths: 4,
       sqft: "4,820",
@@ -17,7 +17,7 @@ export function FeaturedListings() {
     },
     {
       price: "$925,000",
-      address: "18 Orchard Lane, Granby MA",
+      address: "Granby, MA",
       beds: 4,
       baths: 3,
       sqft: "3,240",
@@ -27,7 +27,7 @@ export function FeaturedListings() {
     },
     {
       price: "$2,150,000",
-      address: "7 Harborview Dr, Portland ME",
+      address: "Portland, ME",
       beds: 6,
       baths: 5,
       sqft: "5,410",
@@ -37,7 +37,7 @@ export function FeaturedListings() {
     },
     {
       price: "$675,000",
-      address: "233 Maple Ave, Springfield MA",
+      address: "Springfield, MA",
       beds: 3,
       baths: 2,
       sqft: "2,180",

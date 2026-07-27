@@ -25,7 +25,7 @@ export const Route = createFileRoute("/offer")({
 });
 
 const HERO_VIDEO =
-  "https://videos.pexels.com/video-files/8721935/8721935-hd_1920_1080_25fps.mp4";
+  "/Get Your Offer/Hero.mp4";
 const BAND_VIDEO =
   "https://videos.pexels.com/video-files/5495847/5495847-uhd_2560_1440_30fps.mp4";
 const FORM_VIDEO =
@@ -39,25 +39,25 @@ function OfferPage() {
       n: "01",
       t: t('offer.step1Title'),
       d: t('offer.step1Desc'),
-      img: "https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/Get Your Offer/Reach Out.png",
     },
     {
       n: "02",
       t: t('offer.step2Title'),
       d: t('offer.step2Desc'),
-      img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/Get Your Offer/Walk Through.png",
     },
     {
       n: "03",
       t: t('offer.step3Title'),
       d: t('offer.step3Desc'),
-      img: "https://images.pexels.com/photos/6863515/pexels-photo-6863515.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/Get Your Offer/Offer.png",
     },
     {
       n: "04",
       t: t('offer.step4Title'),
       d: t('offer.step4Desc'),
-      img: "https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      img: "/Get Your Offer/Close.png",
     },
   ];
 
@@ -72,23 +72,23 @@ function OfferPage() {
   const WHO = [
     {
       t: t('offer.whoForInherited'),
-      img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/Get Your Offer/Inherited.png",
     },
     {
       t: t('offer.whoForNeedsRepairs'),
-      img: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/Get Your Offer/Needs repairs.png",
     },
     {
       t: t('offer.whoForRelocation'),
-      img: "https://images.pexels.com/photos/2062431/pexels-photo-2062431.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/Get Your Offer/Relocation.png",
     },
     {
       t: t('offer.whoForTiredRental'),
-      img: "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/Get Your Offer/Tired rental.png",
     },
     {
       t: t('offer.whoForPrivate'),
-      img: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/Get Your Offer/Private sale.png",
     },
   ];
 
@@ -103,7 +103,7 @@ function OfferPage() {
           muted
           loop
           playsInline
-          poster="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=2400"
+          poster="/Get Your Offer/Offer.png"
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source src={HERO_VIDEO} type="video/mp4" />
@@ -127,13 +127,13 @@ function OfferPage() {
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a
                 href="#offer-form"
-                className="inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-3 rounded-full bg-gold px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-black transition-transform hover:-translate-y-0.5"
               >
                 {t('offer.requestOffer')} <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 rounded-full border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
+                className="inline-flex items-center justify-center gap-3 rounded-full border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:border-gold hover:text-gold"
               >
                 {t('offer.bookCall')}
               </Link>
@@ -181,7 +181,7 @@ function OfferPage() {
       <section className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
         <div className="absolute inset-0 animate-ken-burns">
           <img
-            src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=2400"
+            src="/Get Your Offer/_A private offer"
             alt=""
             className="h-full w-full object-cover"
           />

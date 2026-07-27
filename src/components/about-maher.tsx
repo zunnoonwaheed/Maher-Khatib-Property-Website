@@ -9,8 +9,8 @@ export function AboutMaher() {
         aria-hidden="true"
         className="pointer-events-none absolute -right-40 top-20 h-[500px] w-[500px] rounded-full bg-gold/10 blur-[160px]"
       />
-      <div className="relative mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-16 px-6 lg:grid-cols-12 lg:gap-24 lg:px-12">
-        <div className="relative lg:col-span-6">
+      <div className="relative mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-16 px-6 lg:grid-cols-2 lg:gap-20 xl:gap-24 lg:px-12">
+        <div className="relative">
           <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
             <img
               src="/maher-portrait.webp"
@@ -35,26 +35,25 @@ export function AboutMaher() {
               </span>
             </div>
           </div>
-          <div className="absolute -left-6 -top-6 hidden h-24 w-24 rounded-full border border-white/15 lg:block" />
         </div>
 
-        <div className="lg:col-span-6">
+        <div>
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold/70" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
               {t('aboutMaher.eyebrow')}
             </span>
           </div>
-          <h2 className="mt-8 font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[4rem]">
+          <h2 className="mt-8 font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
             {t('aboutMaher.title')} · <span className="italic">{t('aboutMaher.subtitle')}</span>
           </h2>
-          <p className="mt-8 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
+          <p className="mt-8 text-base leading-relaxed text-white/60 sm:text-lg">
             {t('aboutMaher.para1')}
           </p>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
+          <p className="mt-6 text-base leading-relaxed text-white/60 sm:text-lg">
             {t('aboutMaher.para2')}
           </p>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
+          <p className="mt-6 text-base leading-relaxed text-white/60 sm:text-lg">
             {t('aboutMaher.para3')}
           </p>
           <div className="mt-12 flex items-center gap-6">

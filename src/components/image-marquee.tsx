@@ -9,13 +9,13 @@ export function ImageMarquee({ images, height = "h-72", reverse = false }: Props
   return (
     <div className={`relative w-full overflow-hidden ${height}`}>
       <div
-        className={`flex h-full min-w-max gap-6 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
+        className={`flex min-w-max gap-6 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
         style={{ animationDuration: "60s" }}
       >
         {loop.map((src, i) => (
           <div
             key={`${src}-${i}`}
-            className="relative aspect-[4/5] h-full overflow-hidden rounded-2xl border border-white/10"
+            className="relative h-[420px] w-80 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 lg:h-[420px]"
           >
             <img
               src={src}

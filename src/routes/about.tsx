@@ -27,11 +27,9 @@ export const Route = createFileRoute("/about")({
 });
 
 const MARQUEE_A = [
-  "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "/about/Broker & Real Estate Expert.png",
+  "/about/Construction.png",
+  "/investment-hero.jpg",
 ];
 
 function AboutPage() {
@@ -43,21 +41,21 @@ function AboutPage() {
       year: t('about.chapter1Year'),
       title: t('about.chapter1Title'),
       body: t('about.chapter1Body'),
-      img: "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/about/Brokerage.png",
     },
     {
       n: "02",
       year: t('about.chapter2Year'),
       title: t('about.chapter2Title'),
       body: t('about.chapter2Body'),
-      img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/about/Construction.png",
     },
     {
       n: "03",
       year: t('about.chapter3Year'),
       title: t('about.chapter3Title'),
       body: t('about.chapter3Body'),
-      img: "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      img: "/about/Broker & Real Estate Expert.png",
     },
   ];
 
@@ -75,7 +73,7 @@ function AboutPage() {
       <section className="relative h-screen min-h-[720px] w-full overflow-hidden">
         <video
           className="absolute inset-0 h-full w-full object-cover"
-          poster="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=2400"
+          poster="/about/Broker & Real Estate Expert.png"
           autoPlay
           muted
           loop
@@ -94,7 +92,7 @@ function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black" />
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent" />
 
-        <div className="relative z-10 mx-auto flex h-full max-w-[1700px] flex-col justify-end px-6 pb-24 lg:px-12 lg:pb-32">
+        <div className="relative z-10 mx-auto flex h-full max-w-[1700px] flex-col items-start justify-center px-6 pt-32 lg:px-12">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
@@ -111,11 +109,11 @@ function AboutPage() {
 
         <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-black/40 backdrop-blur-md">
           <div
-            className="mx-auto grid max-w-[1700px] grid-cols-1 divide-x divide-white/10 px-6 sm:grid-cols-3 lg:px-12"
+            className="mx-auto grid max-w-[1700px] grid-cols-1 gap-4 px-6 py-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/10 lg:px-12"
             data-stagger
           >
             {STATS.map((s) => (
-              <div key={s.l} className="px-4 py-6 first:pl-0 lg:px-8">
+              <div key={s.l} className="text-center sm:px-4 sm:py-0 lg:px-8">
                 <div className="font-serif text-3xl text-white lg:text-4xl">
                   <CountUp value={s.v} />
                 </div>
@@ -129,7 +127,7 @@ function AboutPage() {
       </section>
 
       {/* Bio Section */}
-      <section className="relative overflow-hidden bg-black py-24 lg:py-32">
+      <section className="relative mt-8 overflow-hidden bg-black py-24 lg:py-32">
         <div className="mx-auto max-w-[1200px] px-6 lg:px-12">
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
@@ -192,7 +190,7 @@ function AboutPage() {
       </section>
 
       {/* Marquee band — lifestyle imagery */}
-      <section className="py-24 lg:py-32">
+      <section className="mt-8 py-24 lg:py-32">
         <div className="mx-auto mb-12 max-w-[1500px] px-6 lg:px-12">
           <div className="flex items-end justify-between">
             <div className="flex items-center gap-3">
@@ -256,14 +254,14 @@ function AboutPage() {
       <section className="relative overflow-hidden">
         <div className="relative min-h-[560px] w-full">
           <img
-            src="https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=2400"
+            src="/about/Ready to talk about your next move_.png"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/70" />
           <div className="relative z-10 mx-auto flex min-h-[560px] max-w-[1400px] flex-col items-start justify-center px-6 py-24 lg:px-12">
             <h2 className="max-w-3xl font-serif text-5xl leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              {t('about.ctaTitle')} <span className="italic">{t('about.ctaTitleItalic')}</span>?
+              {t('about.ctaTitle')} <span className="text-white/40">/ </span><span className="italic">{t('about.ctaTitleItalic')}</span>
             </h2>
             <Link
               to="/contact"

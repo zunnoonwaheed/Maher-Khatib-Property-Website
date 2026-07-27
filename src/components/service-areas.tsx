@@ -31,8 +31,8 @@ const SUPPORTED_LABEL_STATES = new Set([
 export function ServiceAreas() {
   const { t } = useLanguage();
   return (
-    <section id="areas" className="relative overflow-hidden bg-black">
-      <div className="mx-auto max-w-[1600px] px-6 pt-24 lg:pt-32 lg:px-12">
+    <section id="areas" className="relative overflow-hidden bg-black py-16 lg:py-20">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-12">
         <div className="text-center">
           <div className="inline-flex items-center gap-3">
             <span className="h-px w-10 bg-gold/70" />
@@ -59,106 +59,6 @@ export function ServiceAreas() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="relative mx-auto mt-10 max-w-[1600px] px-6 lg:px-12">
-        <ComposableMap
-          projection="geoAlbersUsa"
-          projectionConfig={{ scale: MAP_SCALE }}
-          width={MAP_WIDTH}
-          height={MAP_HEIGHT}
-          style={{ width: "100%", height: "auto" }}
-        >
-          <defs>
-            <filter id="marker-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feFlood floodColor="#ffffff" floodOpacity="0.7" result="flood" />
-              <feComposite in="flood" in2="blur" operator="in" result="glow" />
-              <feMerge>
-                <feMergeNode in="glow" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <Geographies geography="/us-states.json">
-            {({ geographies }) => (
-              <>
-                {/* Base muted map */}
-                {geographies.map((geo) => (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill="#262626"
-                    stroke="#111111"
-                    strokeWidth={0.7}
-                    fillOpacity={1}
-                    style={{
-                      default: { outline: "none" },
-                      hover: { outline: "none", fill: "#333333" },
-                      pressed: { outline: "none" },
-                    }}
-                  />
-                ))}
-
-                {/* State labels */}
-                {geographies.map((geo) => {
-                  const name: string = geo.properties.name;
-                  if (!SUPPORTED_LABEL_STATES.has(name)) return null;
-                  const centroid = geoCentroid(geo);
-                  return (
-                    <Marker key={`label-${geo.rsmKey}`} coordinates={centroid}>
-                      <text
-                        textAnchor="middle"
-                        y={1}
-                        style={{
-                          fontFamily: "system-ui, sans-serif",
-                          fontSize: 6,
-                          fontWeight: 600,
-                          letterSpacing: "0.08em",
-                          fill: "#b3b3b3",
-                          fillOpacity: 1,
-                          pointerEvents: "none",
-                          textTransform: "uppercase",
-                          paintOrder: "stroke",
-                        }}
-                      >
-                        {name}
-                      </text>
-                    </Marker>
-                  );
-                })}
-              </>
-            )}
-          </Geographies>
-
-          {/* Target markers */}
-          {TARGETS.map((loc) => (
-            <Marker key={loc.name} coordinates={loc.coords}>
-              <circle r={6} fill="none" stroke="#ffffff" strokeWidth={1.4}>
-                <animate
-                  attributeName="r"
-                  values="4;22;4"
-                  dur="2.4s"
-                  repeatCount="indefinite"
-                />
-                <animate
-                  attributeName="opacity"
-                  values="0.9;0;0.9"
-                  dur="2.4s"
-                  repeatCount="indefinite"
-                />
-              </circle>
-              <circle
-                r={4.5}
-                fill="#ffffff"
-                stroke="#0a0a0a"
-                strokeWidth={1.2}
-                filter="url(#marker-glow)"
-              />
-            </Marker>
-          ))}
-        </ComposableMap>
       </div>
 
     </section>
