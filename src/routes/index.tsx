@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
-import { WhyMaher } from "@/components/why-maher";
 import { Testimonials } from "@/components/testimonials";
 import { AboutMaher } from "@/components/about-maher";
 import { WhatIDo } from "@/components/what-i-do";
@@ -99,7 +98,6 @@ function Index() {
       <AboutMaher />
       <WhatIDo />
       <FindYourPlace />
-      <WhyMaher />
       <ServiceAreas />
       <FeaturedListings />
       <Testimonials />
