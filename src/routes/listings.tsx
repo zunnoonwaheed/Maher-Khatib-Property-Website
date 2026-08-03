@@ -4,8 +4,17 @@ import { ArrowUpRight, BedDouble, Bath, Square, MapPin } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  badgeLabel,
+  formatBaths,
+  formatPrice,
+  formatSqft,
+  getPublishedListings,
+  type Listing,
+} from "@/lib/listings";
 
 export const Route = createFileRoute("/listings")({
+  loader: () => getPublishedListings(),
   head: () => ({
     meta: [
       { title: "Listings | Featured Homes & Investments — Maher Khatib" },
@@ -24,107 +33,35 @@ export const Route = createFileRoute("/listings")({
   component: ListingsPage,
 });
 
-type Listing = {
-  price: string;
-  address: string;
-  city: string;
-  beds: number;
-  baths: number;
-  sqft: string;
-  image: string;
-  tag: string;
-  category: "featured" | "available" | "sold" | "build" | "commercial";
-  story?: string;
+// Compatibility shim: the current 7 listings drive category filter pills that
+// predate the `listings` table (which has no category column, only a free-text
+// `tag`). This maps today's exact tags to those categories so the pills keep
+// working unchanged. A future listing with a new/unmapped tag will still show
+// under "All", just not under a specific category pill.
+const TAG_TO_CATEGORY: Record<string, FilterKey> = {
+  Featured: "featured",
+  "Just Listed": "featured",
+  Available: "available",
+  "New Build": "build",
+  Investment: "commercial",
 };
 
-const LISTINGS: Listing[] = [
-  {
-    price: "$1,850,000",
-    address: "Ridgeview Estate",
-    city: "Longmeadow, MA",
-    beds: 5,
-    baths: 4,
-    sqft: "5,200",
-    image:
-      "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    tag: "Featured",
-    category: "featured",
-    story:
-      "A hilltop estate with unobstructed valley views, walnut millwork, and a private wooded acre.",
-  },
-  {
-    price: "$925,000",
-    address: "Amherst Road Home",
-    city: "Granby, MA",
-    beds: 4,
-    baths: 3,
-    sqft: "3,100",
-    image:
-      "https://images.pexels.com/photos/32870/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=2000",
-    tag: "Just Listed",
-    category: "featured",
-  },
-  {
-    price: "$675,000",
-    address: "Elm Court Residence",
-    city: "Springfield, MA",
-    beds: 3,
-    baths: 2,
-    sqft: "2,400",
-    image:
-      "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "Available",
-    category: "available",
-  },
-  {
-    price: "$540,000",
-    address: "Pine Ridge Home",
-    city: "Wilbraham, MA",
-    beds: 3,
-    baths: 2,
-    sqft: "2,100",
-    image:
-      "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "Available",
-    category: "available",
-  },
-  {
-    price: "Sold · $1,120,000",
-    address: "Sunset Avenue",
-    city: "Longmeadow, MA",
-    beds: 4,
-    baths: 3,
-    sqft: "3,400",
-    image:
-      "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "Recent Sale",
-    category: "sold",
-  },
-  {
-    price: "From $980,000",
-    address: "The Granby Reserve",
-    city: "Granby, MA",
-    beds: 4,
-    baths: 3,
-    sqft: "3,200",
-    image:
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "New Build",
-    category: "build",
-  },
-  {
-    price: "$2,650,000",
-    address: "Mixed-Use Development",
-    city: "Springfield, MA",
-    beds: 0,
-    baths: 0,
-    sqft: "18,000",
-    image:
-      "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    tag: "Investment",
-    category: "commercial",
-  },
-];
+function categoryOf(listing: Listing): FilterKey | undefined {
+  if (listing.status === "sold") return "sold";
+  if (listing.tag && TAG_TO_CATEGORY[listing.tag]) return TAG_TO_CATEGORY[listing.tag];
+  return undefined;
+}
+
+// The hero's editorial "story" paragraph and the secondary section's fixed
+// sentence aren't part of the listings schema (no such column was
+// specified). They're preserved here as static copy keyed to the specific
+// address that currently occupies each slot, matching today's exact
+// appearance — if the lead listing ever changes, this copy won't follow it.
+const HERO_STORY: Record<string, string> = {
+  "Ridgeview Estate":
+    "A hilltop estate with unobstructed valley views, walnut millwork, and a private wooded acre.",
+};
+const SECONDARY_COPY = "Cedar cladding. Glass on three sides. Salt in the air.";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -139,13 +76,25 @@ type FilterKey = (typeof FILTERS)[number]["key"];
 
 function ListingsPage() {
   const { t } = useLanguage();
+  const listings = Route.useLoaderData();
   const [filter, setFilter] = useState<FilterKey>("all");
-  const hero = LISTINGS[0];
-  const secondary = LISTINGS[1];
+
+  const hero = listings[0];
+  const secondary = listings[1];
   const rest =
-    filter === "all"
-      ? LISTINGS.slice(2)
-      : LISTINGS.filter((l) => l.category === filter);
+    filter === "all" ? listings.slice(2) : listings.filter((l) => categoryOf(l) === filter);
+
+  if (!hero || !secondary) {
+    return (
+      <main className="relative bg-black">
+        <SiteHeader transparentOnTop />
+        <div className="flex min-h-screen items-center justify-center px-6">
+          <p className="text-white/50">No listings available yet.</p>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
 
   return (
     <main className="relative bg-black">
@@ -154,11 +103,13 @@ function ListingsPage() {
       {/* Cinematic featured listing hero */}
       <section className="relative h-screen min-h-[720px] w-full overflow-hidden">
         <div className="absolute inset-0 animate-ken-burns">
-          <img
-            src={hero.image}
-            alt={hero.address}
-            className="h-full w-full object-cover"
-          />
+          {hero.featured_image_url ? (
+            <img
+              src={hero.featured_image_url}
+              alt={hero.address}
+              className="h-full w-full object-cover"
+            />
+          ) : null}
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black" />
         <div className="relative z-10 mx-auto flex h-full max-w-[1700px] flex-col justify-end px-6 pb-24 lg:px-12 lg:pb-32">
@@ -173,20 +124,22 @@ function ListingsPage() {
           </h1>
           <div className="mt-6 flex flex-wrap items-center gap-6 text-white/80">
             <span className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.28em]">
-              <MapPin className="h-4 w-4 text-gold" /> {hero.city}
+              <MapPin className="h-4 w-4 text-gold" /> {hero.city_state}
             </span>
-            <span className="font-serif text-3xl text-white">{hero.price}</span>
+            <span className="font-serif text-3xl text-white">{formatPrice(hero.price)}</span>
           </div>
-          {hero.story && <p className="mt-6 max-w-xl text-lg text-white/70">{hero.story}</p>}
+          {HERO_STORY[hero.address] ? (
+            <p className="mt-6 max-w-xl text-lg text-white/70">{HERO_STORY[hero.address]}</p>
+          ) : null}
           <div className="mt-10 flex flex-wrap gap-3 text-[0.7rem] uppercase tracking-[0.28em] text-white/70">
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.beds} {t('common.bed')}
+              {hero.beds} {t("common.bed")}
             </span>
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.baths} {t('common.bath')}
+              {formatBaths(hero.baths)} {t("common.bath")}
             </span>
             <span className="rounded-full border border-white/20 px-5 py-3">
-              {hero.sqft} {t('common.sqft')}
+              {formatSqft(hero.sqft)} {t("common.sqft")}
             </span>
           </div>
         </div>
@@ -195,29 +148,29 @@ function ListingsPage() {
       {/* Editorial second feature — split screen */}
       <section className="grid grid-cols-1 border-b border-white/5 lg:grid-cols-12">
         <div className="relative min-h-[600px] overflow-hidden lg:col-span-7">
-          <img
-            src={secondary.image}
-            alt={secondary.address}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2000ms] hover:scale-105"
-          />
+          {secondary.featured_image_url ? (
+            <img
+              src={secondary.featured_image_url}
+              alt={secondary.address}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2000ms] hover:scale-105"
+            />
+          ) : null}
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
         </div>
         <div className="flex items-start bg-black px-8 py-16 lg:col-span-5 lg:px-16">
           <div>
             <div className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-gold">
-              {secondary.tag}
+              {badgeLabel(secondary)}
             </div>
             <h2 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight text-white lg:text-6xl">
               {secondary.address}
             </h2>
             <div className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.28em] text-white/60">
-              <MapPin className="h-4 w-4 text-gold" /> {secondary.city}
+              <MapPin className="h-4 w-4 text-gold" /> {secondary.city_state}
             </div>
-            <p className="mt-8 text-lg leading-relaxed text-white/60">
-              Cedar cladding. Glass on three sides. Salt in the air.
-            </p>
+            <p className="mt-8 text-lg leading-relaxed text-white/60">{SECONDARY_COPY}</p>
             <div className="mt-8 font-serif text-4xl text-white">
-              {secondary.price}
+              {formatPrice(secondary.price)}
             </div>
           </div>
         </div>
@@ -253,7 +206,7 @@ function ListingsPage() {
         <div className="mx-auto grid max-w-[1700px] grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {rest.map((l, i) => (
             <article
-              key={l.address}
+              key={l.id}
               className={`group relative overflow-hidden ${
                 i % 5 === 0 ? "md:col-span-2 lg:col-span-2" : ""
               }`}
@@ -263,27 +216,29 @@ function ListingsPage() {
                   i % 5 === 0 ? "aspect-[16/10]" : "aspect-[4/5]"
                 }`}
               >
-                <img
-                  src={l.image}
-                  alt={l.address}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
-                />
+                {l.featured_image_url ? (
+                  <img
+                    src={l.featured_image_url}
+                    alt={l.address}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
+                  />
+                ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                 <span className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/60 px-4 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-white backdrop-blur-md">
-                  {l.tag}
+                  {badgeLabel(l)}
                 </span>
                 <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
                   <div className="font-serif text-3xl leading-tight text-white lg:text-4xl">
                     {l.address}
                   </div>
                   <div className="mt-2 inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.28em] text-white/70">
-                    <MapPin className="h-3 w-3 text-gold" /> {l.city}
+                    <MapPin className="h-3 w-3 text-gold" /> {l.city_state}
                   </div>
                 </div>
               </div>
               <div className="mt-5 flex items-center justify-between">
-                <div className="font-serif text-2xl text-white">{l.price}</div>
+                <div className="font-serif text-2xl text-white">{formatPrice(l.price)}</div>
                 <div className="flex items-center gap-4 text-[0.65rem] uppercase tracking-[0.24em] text-white/50">
                   {l.beds > 0 ? (
                     <span className="inline-flex items-center gap-1.5">
@@ -292,11 +247,11 @@ function ListingsPage() {
                   ) : null}
                   {l.baths > 0 ? (
                     <span className="inline-flex items-center gap-1.5">
-                      <Bath className="h-3.5 w-3.5" /> {l.baths}
+                      <Bath className="h-3.5 w-3.5" /> {formatBaths(l.baths)}
                     </span>
                   ) : null}
                   <span className="inline-flex items-center gap-1.5">
-                    <Square className="h-3.5 w-3.5" /> {l.sqft}
+                    <Square className="h-3.5 w-3.5" /> {formatSqft(l.sqft)}
                   </span>
                 </div>
               </div>
@@ -305,10 +260,8 @@ function ListingsPage() {
         </div>
       </section>
 
-
       {/* CTA cinematic */}
       <section className="relative overflow-hidden">
-
         <div className="relative min-h-[520px] w-full">
           <img
             src="/Get Your Offer/Private sale.png"

@@ -13,6 +13,7 @@ const useNav = () => {
     { label: t('nav.investments'), to: "/investments" },
     { label: t('nav.newBuilds'), to: "/new-builds" },
     { label: t('nav.listings'), to: "/listings" },
+    { label: t('nav.blog'), to: "/blog" },
     { label: t('nav.about'), to: "/about" },
   ];
 };

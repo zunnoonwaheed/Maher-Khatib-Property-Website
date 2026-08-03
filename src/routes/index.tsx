@@ -10,30 +10,30 @@ import { AskMe } from "@/components/ask-me";
 import { Footer } from "@/components/footer";
 import { CountUp } from "@/components/count-up";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getFeaturedListings } from "@/lib/listings";
 
 export const Route = createFileRoute("/")({
+  loader: () => getFeaturedListings(),
   component: Index,
 });
 
-const HERO_VIDEO =
-  "/home/Hero Video .mp4";
+const HERO_VIDEO = "/home/Hero Video .mp4";
 
 // STATS will be defined inside the component to access t()
 
 function Index() {
   const { t } = useLanguage();
+  const featuredListings = Route.useLoaderData();
 
   const STATS = [
-    { value: "$175M+", label: t('home.statSold') },
-    { value: "Top 3%", label: t('home.statAgents') },
-    { value: "30+", label: t('home.statExperience') },
+    { value: "$175M+", label: t("home.statSold") },
+    { value: "Top 3%", label: t("home.statAgents") },
+    { value: "30+", label: t("home.statExperience") },
   ];
 
   return (
     <main className="relative">
       <SiteHeader transparentOnTop />
-
-
 
       {/* ===== Full-screen video hero ===== */}
       <section className="relative flex min-h-screen flex-col overflow-hidden">
@@ -54,29 +54,28 @@ function Index() {
 
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-32 pb-10 text-center">
           <div className="animate-hero-fade-up delay-200 mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-gold">
-            {t('home.heroEyebrow')}
+            {t("home.heroEyebrow")}
           </div>
           <h1 className="font-serif text-hero-foreground">
             <span className="animate-hero-fade-up delay-300 block text-5xl leading-[1.05] font-medium tracking-tight sm:text-7xl lg:text-[5.5rem]">
-              {t('home.heroTitle')}
+              {t("home.heroTitle")}
             </span>
             <span className="animate-hero-fade-up delay-500 mt-2 block text-4xl leading-[1.1] font-normal sm:text-6xl lg:text-[4.5rem]">
-              {t('home.heroSubtitle')}
+              {t("home.heroSubtitle")}
             </span>
           </h1>
           <p className="animate-hero-fade-up delay-700 mt-8 max-w-3xl text-lg leading-relaxed text-hero-foreground-soft sm:text-xl">
-            {t('home.heroDescription')}
+            {t("home.heroDescription")}
           </p>
 
           <div className="animate-hero-fade-up delay-900 mt-12 flex w-full max-w-md flex-col gap-4 sm:flex-row">
             <Link to="/sell" className="btn-hero-solid w-full justify-center sm:w-auto">
-              {t('nav.sellWithMaher')}
+              {t("nav.sellWithMaher")}
             </Link>
             <Link to="/offer" className="btn-hero-ghost w-full justify-center sm:w-auto">
-              {t('nav.getYourOffer')}
+              {t("nav.getYourOffer")}
             </Link>
           </div>
-
         </div>
 
         <div className="relative z-10 px-6 pb-16">
@@ -99,7 +98,7 @@ function Index() {
       <WhatIDo />
       <FindYourPlace />
       <ServiceAreas />
-      <FeaturedListings />
+      <FeaturedListings listings={featuredListings} />
       <Testimonials />
       <AskMe />
       <Footer />
