@@ -158,7 +158,7 @@ function ContactPage() {
       <section className="relative border-t border-white/5">
         <div className="relative h-[600px] w-full overflow-hidden bg-[#0a0a0a]">
           <iframe
-            title="Service area map"
+            title={t('contact.mapIframeTitle')}
             src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1500000!2d-71.5!3d43.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1700000000000"
             className="absolute inset-0 h-full w-full opacity-70 grayscale invert"
             loading="lazy"

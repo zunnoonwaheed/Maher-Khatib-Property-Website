@@ -216,10 +216,30 @@ function SellPage() {
 
           <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { k: t('sell.marketMedianPrice'), v: "$542K", d: "+6.8% YoY", w: "82%" },
-              { k: t('sell.marketDaysOnMarket'), v: "17", d: "−9 days vs. 2024", w: "34%" },
-              { k: t('sell.marketOverAsking'), v: "62%", d: "of listings closed", w: "62%" },
-              { k: t('sell.marketDemand'), v: "High", d: "3.1 offers avg.", w: "88%" },
+              {
+                k: t('sell.marketMedianPrice'),
+                v: "$542K",
+                d: t('sell.marketMedianPriceChange'),
+                w: "82%",
+              },
+              {
+                k: t('sell.marketDaysOnMarket'),
+                v: "17",
+                d: t('sell.marketDaysOnMarketChange'),
+                w: "34%",
+              },
+              {
+                k: t('sell.marketOverAsking'),
+                v: "62%",
+                d: t('sell.marketOverAskingChange'),
+                w: "62%",
+              },
+              {
+                k: t('sell.marketDemand'),
+                v: t('sell.marketDemandHigh'),
+                d: t('sell.marketDemandChange'),
+                w: "88%",
+              },
             ].map((m) => (
               <div
                 key={m.k}

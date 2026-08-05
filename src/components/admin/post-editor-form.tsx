@@ -20,8 +20,12 @@ type ImageSlot = {
 type FaqDraft = {
   key: string;
   question: string;
+  question_es: string;
   answer: string;
+  answer_es: string;
 };
+
+type EditingLang = "en" | "es";
 
 const EMPTY_SLOT: ImageSlot = { url: "", alt: "", uploading: false, dims: null };
 
@@ -52,11 +56,15 @@ async function uploadBlogImage(file: File): Promise<string> {
 
 export function PostEditorForm({ initialPost }: Props) {
   const navigate = useNavigate();
+  const [editingLang, setEditingLang] = useState<EditingLang>("en");
   const [title, setTitle] = useState(initialPost?.title ?? "");
+  const [titleEs, setTitleEs] = useState(initialPost?.title_es ?? "");
   const [slug, setSlug] = useState(initialPost?.slug ?? "");
   const [slugTouched, setSlugTouched] = useState(Boolean(initialPost));
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt ?? "");
+  const [excerptEs, setExcerptEs] = useState(initialPost?.excerpt_es ?? "");
   const [content, setContent] = useState(initialPost?.content ?? "");
+  const [contentEs, setContentEs] = useState(initialPost?.content_es ?? "");
   const [featuredImageUrl, setFeaturedImageUrl] = useState(initialPost?.featured_image_url ?? "");
   const [altText, setAltText] = useState(initialPost?.alt_text ?? "");
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -70,7 +78,9 @@ export function PostEditorForm({ initialPost }: Props) {
   const [faqs, setFaqs] = useState<FaqDraft[]>([]);
 
   const [seoTitle, setSeoTitle] = useState(initialPost?.seo_title ?? "");
+  const [seoTitleEs, setSeoTitleEs] = useState(initialPost?.seo_title_es ?? "");
   const [seoDescription, setSeoDescription] = useState(initialPost?.seo_description ?? "");
+  const [seoDescriptionEs, setSeoDescriptionEs] = useState(initialPost?.seo_description_es ?? "");
   const [keywords, setKeywords] = useState(initialPost?.keywords ?? "");
   const [indexing, setIndexing] = useState<"index" | "noindex">(
     initialPost?.noindex ? "noindex" : "index",
@@ -87,7 +97,15 @@ export function PostEditorForm({ initialPost }: Props) {
     let active = true;
     getFaqsForPost(initialPost.id).then((rows) => {
       if (!active) return;
-      setFaqs(rows.map((f) => ({ key: f.id, question: f.question, answer: f.answer })));
+      setFaqs(
+        rows.map((f) => ({
+          key: f.id,
+          question: f.question,
+          question_es: f.question_es ?? "",
+          answer: f.answer,
+          answer_es: f.answer_es ?? "",
+        })),
+      );
     });
     return () => {
       active = false;
@@ -146,14 +164,21 @@ export function PostEditorForm({ initialPost }: Props) {
   };
 
   const addFaq = () => {
-    setFaqs((prev) => [...prev, { key: crypto.randomUUID(), question: "", answer: "" }]);
+    setFaqs((prev) => [
+      ...prev,
+      { key: crypto.randomUUID(), question: "", question_es: "", answer: "", answer_es: "" },
+    ]);
   };
 
   const removeFaq = (key: string) => {
     setFaqs((prev) => prev.filter((f) => f.key !== key));
   };
 
-  const updateFaq = (key: string, field: "question" | "answer", value: string) => {
+  const updateFaq = (
+    key: string,
+    field: "question" | "question_es" | "answer" | "answer_es",
+    value: string,
+  ) => {
     setFaqs((prev) => prev.map((f) => (f.key === key ? { ...f, [field]: value } : f)));
   };
 
@@ -192,9 +217,12 @@ export function PostEditorForm({ initialPost }: Props) {
 
     const payload = {
       title: title.trim(),
+      title_es: titleEs.trim() || null,
       slug: slug.trim(),
       excerpt: excerpt.trim() || null,
+      excerpt_es: excerptEs.trim() || null,
       content,
+      content_es: contentEs.trim() || null,
       featured_image_url: featuredImageUrl || null,
       alt_text: altText.trim() || null,
       image_1_url: images[0].url || null,
@@ -204,7 +232,9 @@ export function PostEditorForm({ initialPost }: Props) {
       image_3_url: images[2].url || null,
       image_3_alt: images[2].alt.trim() || null,
       seo_title: seoTitle.trim() || null,
+      seo_title_es: seoTitleEs.trim() || null,
       seo_description: seoDescription.trim() || null,
+      seo_description_es: seoDescriptionEs.trim() || null,
       keywords: keywords.trim() || null,
       noindex: indexing === "noindex",
       scheduled_at: new Date(scheduledAt).toISOString(),
@@ -241,7 +271,9 @@ export function PostEditorForm({ initialPost }: Props) {
       .map((f, i) => ({
         post_id: savedPost.id,
         question: f.question.trim(),
+        question_es: f.question_es.trim() || null,
         answer: f.answer.trim(),
+        answer_es: f.answer_es.trim() || null,
         sort_order: i,
       }));
 
@@ -260,16 +292,52 @@ export function PostEditorForm({ initialPost }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <label className="flex flex-col gap-2">
+      <div className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 p-1">
+        <button
+          type="button"
+          onClick={() => setEditingLang("en")}
+          className={`rounded-full px-5 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors ${
+            editingLang === "en" ? "bg-gold text-black" : "text-white/60 hover:text-white"
+          }`}
+        >
+          English
+        </button>
+        <button
+          type="button"
+          onClick={() => setEditingLang("es")}
+          className={`rounded-full px-5 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors ${
+            editingLang === "es" ? "bg-gold text-black" : "text-white/60 hover:text-white"
+          }`}
+        >
+          Español
+        </button>
+      </div>
+      {editingLang === "es" ? (
+        <p className="mt-3 text-xs text-white/40">
+          Editing the Spanish version. Leave any field blank to fall back to the English version
+          on the live site.
+        </p>
+      ) : null}
+
+      <label className="mt-6 flex flex-col gap-2">
         <span className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/50">
           Title
         </span>
-        <input
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          placeholder="Post title"
-          className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 font-serif text-2xl text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
-        />
+        {editingLang === "en" ? (
+          <input
+            value={title}
+            onChange={(e) => onTitleChange(e.target.value)}
+            placeholder="Post title"
+            className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 font-serif text-2xl text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
+          />
+        ) : (
+          <input
+            value={titleEs}
+            onChange={(e) => setTitleEs(e.target.value)}
+            placeholder={title || "Título de la publicación"}
+            className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 font-serif text-2xl text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
+          />
+        )}
       </label>
 
       <label className="mt-6 flex flex-col gap-2">
@@ -325,20 +393,34 @@ export function PostEditorForm({ initialPost }: Props) {
         <span className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/50">
           Excerpt
         </span>
-        <textarea
-          value={excerpt}
-          onChange={(e) => setExcerpt(e.target.value)}
-          rows={3}
-          placeholder="One or two sentences summarizing the post"
-          className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
-        />
+        {editingLang === "en" ? (
+          <textarea
+            value={excerpt}
+            onChange={(e) => setExcerpt(e.target.value)}
+            rows={3}
+            placeholder="One or two sentences summarizing the post"
+            className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
+          />
+        ) : (
+          <textarea
+            value={excerptEs}
+            onChange={(e) => setExcerptEs(e.target.value)}
+            rows={3}
+            placeholder={excerpt || "Una o dos oraciones que resuman la publicación"}
+            className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
+          />
+        )}
       </label>
 
       <div className="mt-6 flex flex-col gap-2">
         <span className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/50">
           Content
         </span>
-        <RichTextEditor content={content} onChange={setContent} />
+        {editingLang === "en" ? (
+          <RichTextEditor content={content} onChange={setContent} />
+        ) : (
+          <RichTextEditor content={contentEs} onChange={setContentEs} />
+        )}
       </div>
 
       {/* In-Article Images — optional, rendered at fixed points through the post body */}

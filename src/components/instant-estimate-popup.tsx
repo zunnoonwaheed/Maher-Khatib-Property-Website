@@ -59,7 +59,7 @@ export function InstantEstimatePopup() {
       <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-black/95 p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] backdrop-blur-xl">
         <button
           type="button"
-          aria-label="Close"
+          aria-label={t("common.close")}
           onClick={dismiss}
           className="absolute right-4 top-4 rounded-full border border-white/15 p-2 text-white/70 hover:text-white"
         >

@@ -5,22 +5,25 @@ export type ListingStatus = "for_sale" | "pending" | "sold";
 export type Listing = {
   id: string;
   address: string;
+  address_es: string | null;
   city_state: string;
+  city_state_es: string | null;
   status: ListingStatus;
+  status_es: string | null;
   price: number;
   beds: number;
   baths: number;
   sqft: number;
   featured_image_url: string | null;
-  tag: string | null;
   featured: boolean;
   sort_order: number;
   published: boolean;
   created_at: string;
 };
 
-const COLUMNS =
-  "id, address, city_state, status, price, beds, baths, sqft, featured_image_url, tag, featured, sort_order, published, created_at";
+export const LISTING_COLUMNS =
+  "id, address, address_es, city_state, city_state_es, status, status_es, price, beds, baths, sqft, featured_image_url, featured, sort_order, published, created_at" as const;
+const COLUMNS = LISTING_COLUMNS;
 
 export async function getFeaturedListings(): Promise<Listing[]> {
   const { data, error } = await supabase
@@ -45,21 +48,43 @@ export async function getPublishedListings(): Promise<Listing[]> {
   return data ?? [];
 }
 
+type Lang = "en" | "es";
+
 const STATUS_LABELS: Record<ListingStatus, string> = {
   for_sale: "For Sale",
   pending: "Pending",
   sold: "Sold",
 };
 
-export function statusLabel(status: ListingStatus): string {
-  return STATUS_LABELS[status];
+// Default Spanish status labels, used whenever a listing has no per-row
+// status_es override set — so ES mode never has to fall back to raw
+// English for something as basic as the status badge.
+const STATUS_LABELS_ES: Record<ListingStatus, string> = {
+  for_sale: "En Venta",
+  pending: "Pendiente",
+  sold: "Vendido",
+};
+
+export function statusLabel(
+  listing: Pick<Listing, "status" | "status_es">,
+  language: Lang = "en",
+): string {
+  if (language === "es") return listing.status_es || STATUS_LABELS_ES[listing.status];
+  return STATUS_LABELS[listing.status];
 }
 
-// Preserves each listing's exact current display badge (e.g. "New Build",
-// "Investment") when a custom tag is set; falls back to the status label
-// for any future listing created without one.
-export function badgeLabel(listing: Pick<Listing, "tag" | "status">): string {
-  return listing.tag ?? statusLabel(listing.status);
+export function localizedAddress(
+  listing: Pick<Listing, "address" | "address_es">,
+  language: Lang,
+): string {
+  return (language === "es" && listing.address_es) || listing.address;
+}
+
+export function localizedCityState(
+  listing: Pick<Listing, "city_state" | "city_state_es">,
+  language: Lang,
+): string {
+  return (language === "es" && listing.city_state_es) || listing.city_state;
 }
 
 export function formatPrice(price: number): string {

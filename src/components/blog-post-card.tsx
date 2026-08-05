@@ -1,7 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { formatPostDate, type BlogPost } from "@/lib/blog";
+import { formatPostDate, localizedExcerpt, localizedTitle, type BlogPost } from "@/lib/blog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function BlogPostCard({ post }: { post: BlogPost }) {
+  const { language } = useLanguage();
+  const title = localizedTitle(post, language);
+  const excerpt = localizedExcerpt(post, language);
+
   return (
     <Link
       to="/blog/$slug"
@@ -12,7 +17,7 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
         {post.featured_image_url ? (
           <img
             src={post.featured_image_url}
-            alt={post.title}
+            alt={title}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
           />
@@ -20,10 +25,10 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
       </div>
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-serif text-xl leading-snug text-white transition-colors group-hover:text-gold">
-          {post.title}
+          {title}
         </h3>
-        {post.excerpt ? (
-          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-white/55">{post.excerpt}</p>
+        {excerpt ? (
+          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-white/55">{excerpt}</p>
         ) : null}
         <div className="mt-auto pt-6 text-[0.65rem] uppercase tracking-[0.2em] text-white/45">
           {formatPostDate(post)}

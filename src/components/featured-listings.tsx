@@ -1,9 +1,16 @@
 import { ArrowUpRight, Bed, Bath, Square } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { badgeLabel, formatBaths, formatPrice, formatSqft, type Listing } from "@/lib/listings";
+import {
+  formatBaths,
+  formatPrice,
+  formatSqft,
+  localizedCityState,
+  statusLabel,
+  type Listing,
+} from "@/lib/listings";
 
 export function FeaturedListings({ listings }: { listings: Listing[] }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="featured" className="relative bg-black py-24 lg:py-32">
@@ -40,18 +47,18 @@ export function FeaturedListings({ listings }: { listings: Listing[] }) {
                 {l.featured_image_url ? (
                   <img
                     src={l.featured_image_url}
-                    alt={l.city_state}
+                    alt={localizedCityState(l, language)}
                     loading="lazy"
                     className="pointer-events-none h-full w-full object-cover"
                   />
                 ) : null}
                 <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/70 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-gold backdrop-blur-md">
-                  {badgeLabel(l)}
+                  {statusLabel(l, language)}
                 </span>
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <div className="font-serif text-2xl text-white">{formatPrice(l.price)}</div>
-                <div className="mt-2 text-sm text-white/55">{l.city_state}</div>
+                <div className="mt-2 text-sm text-white/55">{localizedCityState(l, language)}</div>
                 <div className="mt-auto flex items-center gap-4 pt-6 text-[0.7rem] uppercase tracking-[0.16em] text-white/55">
                   <span className="inline-flex items-center gap-1.5">
                     <Bed className="h-3.5 w-3.5" /> {l.beds}

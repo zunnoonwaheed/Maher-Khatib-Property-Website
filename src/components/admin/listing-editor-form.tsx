@@ -26,7 +26,6 @@ export function ListingEditorForm({ initialListing }: Props) {
   const [featuredImageUrl, setFeaturedImageUrl] = useState(
     initialListing?.featured_image_url ?? "",
   );
-  const [tag, setTag] = useState(initialListing?.tag ?? "");
   const [featured, setFeatured] = useState(initialListing?.featured ?? false);
   const [published, setPublished] = useState(initialListing?.published ?? false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -90,7 +89,6 @@ export function ListingEditorForm({ initialListing }: Props) {
       baths: bathsNum,
       sqft: sqftNum,
       featured_image_url: featuredImageUrl || null,
-      tag: tag.trim() || null,
       featured,
       published,
     };
@@ -235,18 +233,6 @@ export function ListingEditorForm({ initialListing }: Props) {
           />
         </label>
       </div>
-
-      <label className="mt-6 flex flex-col gap-2">
-        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/50">
-          Tag (optional)
-        </span>
-        <input
-          value={tag}
-          onChange={(e) => setTag(e.target.value)}
-          placeholder="Coastal, Downtown, New Build…"
-          className="rounded-xl border border-white/10 bg-black/40 px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-gold focus:outline-none"
-        />
-      </label>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Toggle

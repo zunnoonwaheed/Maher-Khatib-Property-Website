@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, LogOut } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, ArrowUp, ArrowDown } from "lucide-react";
 import { AdminGuard } from "@/components/admin/admin-guard";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { supabase } from "@/lib/supabase";
-import { formatPrice, statusLabel, type Listing } from "@/lib/listings";
+import { formatPrice, statusLabel, LISTING_COLUMNS, type Listing } from "@/lib/listings";
 
 export const Route = createFileRoute("/admin/listings/")({
   component: () => (
@@ -19,13 +19,12 @@ function AdminListingsList() {
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
 
   const loadListings = async () => {
     const { data, error: fetchError } = await supabase
       .from("listings")
-      .select(
-        "id, address, city_state, status, price, beds, baths, sqft, featured_image_url, tag, featured, sort_order, published, created_at",
-      )
+      .select(LISTING_COLUMNS)
       .order("sort_order", { ascending: true });
     if (fetchError) {
       setError(fetchError.message);
@@ -65,6 +64,34 @@ function AdminListingsList() {
       (prev) =>
         prev?.map((l) => (l.id === listing.id ? { ...l, published: !l.published } : l)) ?? null,
     );
+  };
+
+  // Re-sequences sort_order for the whole list on every move (rather than
+  // just swapping the two touched rows) because existing rows can share the
+  // column's default of 0 — swapping two equal values would be a no-op and
+  // the move wouldn't stick after a reload.
+  const onMove = async (index: number, direction: -1 | 1) => {
+    if (!listings) return;
+    const target = index + direction;
+    if (target < 0 || target >= listings.length) return;
+
+    const reordered = [...listings];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+    setListings(reordered);
+    setReordering(true);
+
+    const results = await Promise.all(
+      reordered.map((listing, i) =>
+        supabase.from("listings").update({ sort_order: i }).eq("id", listing.id),
+      ),
+    );
+    setReordering(false);
+
+    const failed = results.find((r) => r.error);
+    if (failed?.error) {
+      window.alert(`Failed to reorder: ${failed.error.message}`);
+      loadListings();
+    }
   };
 
   const onSignOut = async () => {
@@ -118,6 +145,7 @@ function AdminListingsList() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-white/10 text-[0.65rem] uppercase tracking-[0.2em] text-white/40">
+                  <th className="px-6 py-4 font-semibold">Order</th>
                   <th className="px-6 py-4 font-semibold">Photo</th>
                   <th className="px-6 py-4 font-semibold">Address</th>
                   <th className="px-6 py-4 font-semibold">City, State</th>
@@ -128,8 +156,30 @@ function AdminListingsList() {
                 </tr>
               </thead>
               <tbody>
-                {listings.map((listing) => (
+                {listings.map((listing, index) => (
                   <tr key={listing.id} className="border-b border-white/5 last:border-0">
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1">
+                        <button
+                          type="button"
+                          aria-label="Move up"
+                          disabled={reordering || index === 0}
+                          onClick={() => onMove(index, -1)}
+                          className="grid h-6 w-6 place-items-center rounded-full border border-white/15 text-white/60 hover:border-gold hover:text-gold disabled:opacity-30 disabled:hover:border-white/15 disabled:hover:text-white/60"
+                        >
+                          <ArrowUp className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Move down"
+                          disabled={reordering || index === listings.length - 1}
+                          onClick={() => onMove(index, 1)}
+                          className="grid h-6 w-6 place-items-center rounded-full border border-white/15 text-white/60 hover:border-gold hover:text-gold disabled:opacity-30 disabled:hover:border-white/15 disabled:hover:text-white/60"
+                        >
+                          <ArrowDown className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="h-12 w-16 overflow-hidden rounded-lg bg-white/5">
                         {listing.featured_image_url ? (
@@ -145,7 +195,7 @@ function AdminListingsList() {
                     <td className="px-6 py-4 text-sm text-white/60">{listing.city_state}</td>
                     <td className="px-6 py-4">
                       <span className="rounded-full bg-white/10 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white/70">
-                        {statusLabel(listing.status)}
+                        {statusLabel(listing)}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-white/70">

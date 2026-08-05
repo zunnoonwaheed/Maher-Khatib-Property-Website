@@ -4,7 +4,7 @@ import { AdminGuard } from "@/components/admin/admin-guard";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { ListingEditorForm } from "@/components/admin/listing-editor-form";
 import { supabase } from "@/lib/supabase";
-import type { Listing } from "@/lib/listings";
+import { LISTING_COLUMNS, type Listing } from "@/lib/listings";
 
 export const Route = createFileRoute("/admin/listings/$id/edit")({
   component: () => (
@@ -22,9 +22,7 @@ function EditListingPage() {
     let active = true;
     supabase
       .from("listings")
-      .select(
-        "id, address, city_state, status, price, beds, baths, sqft, featured_image_url, tag, featured, sort_order, published, created_at",
-      )
+      .select(LISTING_COLUMNS)
       .eq("id", id)
       .maybeSingle()
       .then(({ data }) => {

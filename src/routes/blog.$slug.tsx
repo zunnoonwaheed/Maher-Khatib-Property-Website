@@ -4,7 +4,13 @@ import { Footer } from "@/components/footer";
 import { AskMe } from "@/components/ask-me";
 import { BlogPostBody } from "@/components/blog-post-body";
 import { BlogFaqs } from "@/components/blog-faqs";
-import { getPublishedPostBySlug, formatPostDate } from "@/lib/blog";
+import {
+  getPublishedPostBySlug,
+  formatPostDate,
+  localizedContent,
+  localizedTitle,
+} from "@/lib/blog";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/$slug")({
@@ -90,6 +96,8 @@ export const Route = createFileRoute("/blog/$slug")({
 
 function BlogPostPage() {
   const post = Route.useLoaderData();
+  const { language } = useLanguage();
+  const title = localizedTitle(post, language);
 
   return (
     <main className="relative bg-black">
@@ -100,7 +108,7 @@ function BlogPostPage() {
         {post.featured_image_url ? (
           <img
             src={post.featured_image_url}
-            alt={post.alt_text || post.title}
+            alt={post.alt_text || title}
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : null}
@@ -110,7 +118,7 @@ function BlogPostPage() {
         />
         <div className="relative z-10 mx-auto w-full max-w-[1500px] px-6 pb-16 pt-40 lg:px-12 lg:pb-20 lg:pt-48">
           <h1 className="max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[4.5rem]">
-            {post.title}
+            {title}
           </h1>
           <div className="mt-8 text-[0.7rem] uppercase tracking-[0.28em] text-white/60">
             {formatPostDate(post)}
@@ -121,7 +129,7 @@ function BlogPostPage() {
       <section className="bg-black py-24 lg:py-32">
         <div className="mx-auto max-w-[800px] px-6 lg:px-12">
           <BlogPostBody
-            html={post.content}
+            html={localizedContent(post, language)}
             images={[
               { url: post.image_1_url ?? "", alt: post.image_1_alt ?? "" },
               { url: post.image_2_url ?? "", alt: post.image_2_alt ?? "" },

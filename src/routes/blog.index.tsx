@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer";
 import { AskMe } from "@/components/ask-me";
 import { PageHero } from "@/components/page-hero";
 import { BlogPostCard } from "@/components/blog-post-card";
-import { getPublishedPosts, formatPostDate } from "@/lib/blog";
+import { getPublishedPosts, formatPostDate, localizedExcerpt, localizedTitle } from "@/lib/blog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SITE_URL } from "@/lib/site";
 
@@ -35,10 +35,12 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogIndexPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const posts = Route.useLoaderData();
   const featured = posts[0];
   const rest = posts.slice(1);
+  const featuredTitle = featured ? localizedTitle(featured, language) : "";
+  const featuredExcerpt = featured ? localizedExcerpt(featured, language) : null;
 
   return (
     <main className="relative bg-black">
@@ -63,7 +65,7 @@ function BlogIndexPage() {
                 {featured.featured_image_url ? (
                   <img
                     src={featured.featured_image_url}
-                    alt={featured.title}
+                    alt={featuredTitle}
                     className="h-full w-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
                   />
                 ) : null}
@@ -71,10 +73,10 @@ function BlogIndexPage() {
               </div>
               <div className="absolute inset-x-0 bottom-0 p-8 lg:p-14">
                 <h2 className="max-w-3xl font-serif text-3xl leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-                  {featured.title}
+                  {featuredTitle}
                 </h2>
-                {featured.excerpt ? (
-                  <p className="mt-4 max-w-xl text-white/60">{featured.excerpt}</p>
+                {featuredExcerpt ? (
+                  <p className="mt-4 max-w-xl text-white/60">{featuredExcerpt}</p>
                 ) : null}
                 <div className="mt-6 text-[0.65rem] uppercase tracking-[0.2em] text-white/50">
                   {formatPostDate(featured)}
@@ -88,7 +90,7 @@ function BlogIndexPage() {
       <section className="bg-black px-6 py-24 lg:px-12 lg:py-32">
         <div className="mx-auto max-w-[1500px]">
           {posts.length === 0 ? (
-            <p className="py-16 text-center text-white/50">No posts yet — check back soon.</p>
+            <p className="py-16 text-center text-white/50">{t("blog.emptyState")}</p>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {rest.map((post) => (

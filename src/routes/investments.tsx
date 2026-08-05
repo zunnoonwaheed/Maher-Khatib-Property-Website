@@ -24,8 +24,57 @@ export const Route = createFileRoute("/investments")({
   component: InvestmentsPage,
 });
 
+// Static placeholder deal-book entries — not backed by any data source (see
+// listings.tsx's HERO_STORY for the same {en,es} pattern used for editorial
+// copy that isn't in the LanguageContext dictionary). Dollar/percentage
+// figures are duplicated across both languages since they don't change.
+const DEALS: {
+  tag: { en: string; es: string };
+  loc: string;
+  price: string;
+  img: string;
+  metrics: { k: { en: string; es: string }; v: { en: string; es: string } }[];
+}[] = [
+  {
+    tag: { en: "Ground-Up Spec", es: "Construcción Especulativa" },
+    loc: "Longmeadow, MA",
+    price: "$2.8M",
+    img: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    metrics: [
+      { k: { en: "Land basis", es: "Costo del terreno" }, v: { en: "$420K", es: "$420K" } },
+      { k: { en: "Build cost", es: "Costo de construcción" }, v: { en: "$1.6M", es: "$1.6M" } },
+      { k: { en: "Target ARV", es: "ARV objetivo" }, v: { en: "$3.4M", es: "$3.4M" } },
+      { k: { en: "Projected IRR", es: "TIR proyectada" }, v: { en: "22%", es: "22%" } },
+    ],
+  },
+  {
+    tag: { en: "Small Multifamily", es: "Multifamiliar Pequeño" },
+    loc: "Springfield, MA",
+    price: "$1.15M",
+    img: "https://images.pexels.com/photos/2029731/pexels-photo-2029731.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    metrics: [
+      { k: { en: "Units", es: "Unidades" }, v: { en: "6", es: "6" } },
+      { k: { en: "Gross rent", es: "Renta bruta" }, v: { en: "$11.4K/mo", es: "$11.4K/mes" } },
+      { k: { en: "Cap rate", es: "Tasa de capitalización" }, v: { en: "8.1%", es: "8.1%" } },
+      { k: { en: "Cash-on-cash", es: "Retorno en efectivo" }, v: { en: "14%", es: "14%" } },
+    ],
+  },
+  {
+    tag: { en: "Land Assembly", es: "Ensamblaje de Terrenos" },
+    loc: "Granby, MA",
+    price: "$1.8M",
+    img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    metrics: [
+      { k: { en: "Parcels", es: "Parcelas" }, v: { en: "8 lots", es: "8 lotes" } },
+      { k: { en: "Entitled", es: "Con permisos" }, v: { en: "Yes", es: "Sí" } },
+      { k: { en: "Sellout", es: "Venta total" }, v: { en: "$4.2M", es: "$4.2M" } },
+      { k: { en: "Projected IRR", es: "TIR proyectada" }, v: { en: "26%", es: "26%" } },
+    ],
+  },
+];
+
 function InvestmentsPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <main className="relative bg-black">
@@ -132,46 +181,9 @@ function InvestmentsPage() {
           </div>
 
           <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {[
-              {
-                tag: "Ground-Up Spec",
-                loc: "Longmeadow, MA",
-                price: "$2.8M",
-                img: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1400",
-                metrics: [
-                  { k: "Land basis", v: "$420K" },
-                  { k: "Build cost", v: "$1.6M" },
-                  { k: "Target ARV", v: "$3.4M" },
-                  { k: "Projected IRR", v: "22%" },
-                ],
-              },
-              {
-                tag: "Small Multifamily",
-                loc: "Springfield, MA",
-                price: "$1.15M",
-                img: "https://images.pexels.com/photos/2029731/pexels-photo-2029731.jpeg?auto=compress&cs=tinysrgb&w=1400",
-                metrics: [
-                  { k: "Units", v: "6" },
-                  { k: "Gross rent", v: "$11.4K/mo" },
-                  { k: "Cap rate", v: "8.1%" },
-                  { k: "Cash-on-cash", v: "14%" },
-                ],
-              },
-              {
-                tag: "Land Assembly",
-                loc: "Granby, MA",
-                price: "$1.8M",
-                img: "https://images.pexels.com/photos/2079249/pexels-photo-2079249.jpeg?auto=compress&cs=tinysrgb&w=1400",
-                metrics: [
-                  { k: "Parcels", v: "8 lots" },
-                  { k: "Entitled", v: "Yes" },
-                  { k: "Sellout", v: "$4.2M" },
-                  { k: "Projected IRR", v: "26%" },
-                ],
-              },
-            ].map((d) => (
+            {DEALS.map((d) => (
               <article
-                key={d.tag + d.loc}
+                key={d.tag.en + d.loc}
                 className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0e0e0e] to-black"
               >
                 <div className="relative h-56 overflow-hidden">
@@ -184,7 +196,7 @@ function InvestmentsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-6">
                     <span className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-gold">
-                      {d.tag}
+                      {d.tag[language]}
                     </span>
                     <span className="rounded-full border border-white/25 bg-black/50 px-3 py-1 text-[0.55rem] uppercase tracking-[0.28em] text-white/70 backdrop-blur-md">
                       {t('investments.open')}
@@ -196,11 +208,11 @@ function InvestmentsPage() {
                   <div className="mt-2 font-serif text-5xl text-white">{d.price}</div>
                   <dl className="mt-8 grid grid-cols-2 gap-y-4 border-t border-white/10 pt-6">
                     {d.metrics.map((m) => (
-                      <div key={m.k}>
+                      <div key={m.k.en}>
                         <dt className="text-[0.55rem] uppercase tracking-[0.32em] text-white/40">
-                          {m.k}
+                          {m.k[language]}
                         </dt>
-                        <dd className="mt-1 font-serif text-xl text-white">{m.v}</dd>
+                        <dd className="mt-1 font-serif text-xl text-white">{m.v[language]}</dd>
                       </div>
                     ))}
                   </dl>

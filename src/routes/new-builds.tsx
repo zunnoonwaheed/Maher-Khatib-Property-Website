@@ -58,17 +58,17 @@ function NewBuildsPage() {
       span: "lg:col-span-8 lg:row-span-2",
       img: "/new builds/Granby, MA.png",
       town: "Granby, MA",
-      lotSize: "12 acres",
+      lotSize: t('newBuilds.project1LotSize'),
       status: t('newBuilds.projectStatus'),
-      homes: "4 homes planned",
+      homes: t('newBuilds.project1Homes'),
     },
     {
       span: "lg:col-span-4",
       img: "/new builds/Springfield, MA.png",
       town: "Springfield, MA",
-      lotSize: "TBD",
-      status: "Details to come",
-      homes: "Coming soon",
+      lotSize: t('newBuilds.project2LotSize'),
+      status: t('newBuilds.project2Status'),
+      homes: t('newBuilds.project2Homes'),
     },
   ];
 

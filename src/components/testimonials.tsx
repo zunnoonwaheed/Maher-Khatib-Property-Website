@@ -63,6 +63,7 @@ export function Testimonials() {
     setIndex((i) => (i + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
 
   const active = TESTIMONIALS[index];
+  const goToTestimonialLabel = t('testimonials.goToTestimonial');
 
   return (
     <section
@@ -225,7 +226,7 @@ export function Testimonials() {
                     <button
                       type="button"
                       onClick={() => go(-1)}
-                      aria-label="Previous testimonial"
+                      aria-label={t('testimonials.prevAriaLabel')}
                       className="grid h-12 w-12 place-items-center rounded-full border border-white/20 text-white/80 transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black"
                     >
                       <ArrowLeft className="h-4 w-4" />
@@ -233,7 +234,7 @@ export function Testimonials() {
                     <button
                       type="button"
                       onClick={() => go(1)}
-                      aria-label="Next testimonial"
+                      aria-label={t('testimonials.nextAriaLabel')}
                       className="grid h-12 w-12 place-items-center rounded-full border border-white/20 text-white/80 transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black"
                     >
                       <ArrowRight className="h-4 w-4" />
@@ -251,7 +252,7 @@ export function Testimonials() {
                 key={t.name}
                 type="button"
                 onClick={() => setIndex(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
+                aria-label={`${goToTestimonialLabel} ${i + 1}`}
                 className={`h-[3px] rounded-full transition-all duration-500 ${
                   i === index ? "w-10 bg-gold" : "w-5 bg-white/25 hover:bg-white/50"
                 }`}
