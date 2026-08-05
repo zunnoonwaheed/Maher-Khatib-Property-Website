@@ -4,7 +4,7 @@ import { AdminGuard } from "@/components/admin/admin-guard";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { PostEditorForm } from "@/components/admin/post-editor-form";
 import { supabase } from "@/lib/supabase";
-import type { BlogPost } from "@/lib/blog";
+import { BLOG_POST_COLUMNS, type BlogPost } from "@/lib/blog";
 
 export const Route = createFileRoute("/admin/posts/$id/edit")({
   component: () => (
@@ -22,9 +22,7 @@ function EditPostPage() {
     let active = true;
     supabase
       .from("blog_posts")
-      .select(
-        "id, title, slug, excerpt, content, featured_image_url, status, published_at, created_at",
-      )
+      .select(BLOG_POST_COLUMNS)
       .eq("id", id)
       .maybeSingle()
       .then(({ data }) => {

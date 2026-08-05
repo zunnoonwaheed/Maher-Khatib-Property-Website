@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { AskMe } from "@/components/ask-me";
 import { BlogPostBody } from "@/components/blog-post-body";
+import { BlogFaqs } from "@/components/blog-faqs";
 import { getPublishedPostBySlug, formatPostDate } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 
@@ -17,14 +18,22 @@ export const Route = createFileRoute("/blog/$slug")({
     const post = loaderData;
     const path = `/blog/${post.slug}`;
     const publishedAt = post.published_at ?? post.created_at;
+    const seoTitle = post.seo_title || post.title;
+    const seoDescription = post.seo_description || post.excerpt || "";
 
     const meta = [
-      { title: post.title },
-      { name: "description", content: post.excerpt ?? "" },
-      { property: "og:title", content: post.title },
-      { property: "og:description", content: post.excerpt ?? "" },
+      { title: seoTitle },
+      { name: "description", content: seoDescription },
+      { property: "og:title", content: seoTitle },
+      { property: "og:description", content: seoDescription },
       { property: "og:type", content: "article" },
     ];
+    if (post.keywords) {
+      meta.push({ name: "keywords", content: post.keywords });
+    }
+    if (post.noindex) {
+      meta.push({ name: "robots", content: "noindex" });
+    }
     if (post.featured_image_url) {
       meta.push({ property: "og:image", content: post.featured_image_url });
     }
@@ -56,13 +65,25 @@ export const Route = createFileRoute("/blog/$slug")({
       ],
     };
 
-    return {
-      meta,
-      scripts: [
-        { type: "application/ld+json", children: JSON.stringify(articleSchema) },
-        { type: "application/ld+json", children: JSON.stringify(breadcrumbSchema) },
-      ],
-    };
+    const scripts = [
+      { type: "application/ld+json", children: JSON.stringify(articleSchema) },
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbSchema) },
+    ];
+
+    if (post.faqs.length > 0) {
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      };
+      scripts.push({ type: "application/ld+json", children: JSON.stringify(faqSchema) });
+    }
+
+    return { meta, scripts };
   },
   component: BlogPostPage,
 });
@@ -79,8 +100,7 @@ function BlogPostPage() {
         {post.featured_image_url ? (
           <img
             src={post.featured_image_url}
-            alt=""
-            aria-hidden="true"
+            alt={post.alt_text || post.title}
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : null}
@@ -100,7 +120,15 @@ function BlogPostPage() {
 
       <section className="bg-black py-24 lg:py-32">
         <div className="mx-auto max-w-[800px] px-6 lg:px-12">
-          <BlogPostBody html={post.content} />
+          <BlogPostBody
+            html={post.content}
+            images={[
+              { url: post.image_1_url ?? "", alt: post.image_1_alt ?? "" },
+              { url: post.image_2_url ?? "", alt: post.image_2_alt ?? "" },
+              { url: post.image_3_url ?? "", alt: post.image_3_alt ?? "" },
+            ]}
+          />
+          <BlogFaqs faqs={post.faqs} />
         </div>
       </section>
 

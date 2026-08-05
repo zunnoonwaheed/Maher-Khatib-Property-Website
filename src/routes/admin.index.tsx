@@ -4,7 +4,15 @@ import { Plus, Pencil, Trash2, LogOut } from "lucide-react";
 import { AdminGuard } from "@/components/admin/admin-guard";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { supabase } from "@/lib/supabase";
-import type { BlogPost } from "@/lib/blog";
+import { BLOG_POST_COLUMNS, type BlogPost } from "@/lib/blog";
+
+function isScheduledFuture(post: BlogPost): boolean {
+  return (
+    post.status === "published" &&
+    Boolean(post.scheduled_at) &&
+    new Date(post.scheduled_at as string) > new Date()
+  );
+}
 
 export const Route = createFileRoute("/admin/")({
   component: () => (
@@ -22,9 +30,7 @@ function AdminPostList() {
   const loadPosts = async () => {
     const { data, error: fetchError } = await supabase
       .from("blog_posts")
-      .select(
-        "id, title, slug, excerpt, content, featured_image_url, status, published_at, created_at",
-      )
+      .select(BLOG_POST_COLUMNS)
       .order("created_at", { ascending: false });
     if (fetchError) {
       setError(fetchError.message);
@@ -107,46 +113,53 @@ function AdminPostList() {
                 </tr>
               </thead>
               <tbody>
-                {posts.map((post) => (
-                  <tr key={post.id} className="border-b border-white/5 last:border-0">
-                    <td className="px-6 py-4 font-serif text-lg text-white">{post.title}</td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`rounded-full px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] ${
-                          post.status === "published"
-                            ? "bg-gold/20 text-gold"
-                            : "bg-white/10 text-white/60"
-                        }`}
-                      >
-                        {post.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-white/50">
-                      {new Date(post.published_at ?? post.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          to="/admin/posts/$id/edit"
-                          params={{ id: post.id }}
-                          aria-label="Edit"
-                          className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 hover:border-gold hover:text-gold"
+                {posts.map((post) => {
+                  const scheduled = isScheduledFuture(post);
+                  return (
+                    <tr key={post.id} className="border-b border-white/5 last:border-0">
+                      <td className="px-6 py-4 font-serif text-lg text-white">{post.title}</td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`rounded-full px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] ${
+                            scheduled
+                              ? "bg-blue-400/20 text-blue-300"
+                              : post.status === "published"
+                                ? "bg-gold/20 text-gold"
+                                : "bg-white/10 text-white/60"
+                          }`}
                         >
-                          <Pencil className="h-4 w-4" />
-                        </Link>
-                        <button
-                          type="button"
-                          aria-label="Delete"
-                          disabled={deletingId === post.id}
-                          onClick={() => onDelete(post)}
-                          className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 hover:border-red-400 hover:text-red-400 disabled:opacity-40"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          {scheduled ? "Scheduled" : post.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-white/50">
+                        {scheduled
+                          ? new Date(post.scheduled_at as string).toLocaleString()
+                          : new Date(post.published_at ?? post.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            to="/admin/posts/$id/edit"
+                            params={{ id: post.id }}
+                            aria-label="Edit"
+                            className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 hover:border-gold hover:text-gold"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Link>
+                          <button
+                            type="button"
+                            aria-label="Delete"
+                            disabled={deletingId === post.id}
+                            onClick={() => onDelete(post)}
+                            className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 hover:border-red-400 hover:text-red-400 disabled:opacity-40"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}

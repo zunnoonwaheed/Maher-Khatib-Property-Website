@@ -1,108 +1,75 @@
-# Cloudflare Pages Deployment Guide
+# Cloudflare Workers Deployment Guide
 
-This guide will help you deploy the Maher Khatib Property Website to Cloudflare Pages.
+This project deploys to Cloudflare as a native **Worker** (not Cloudflare Pages — no Pages
+project exists for this repo). Nitro's `cloudflare_module` preset builds an SSR Worker with a
+static-assets binding; there is no git-connected CI/CD, so every deploy is a manual
+`wrangler deploy` run from a local machine (or a CI job you set up yourself using the same
+command).
 
 ## Prerequisites
 
 - GitHub repository: https://github.com/zunnoonwaheed/Maher-Khatib-Property-Website
-- Cloudflare account (sign up at https://dash.cloudflare.com/sign-up)
+- A Cloudflare account with access to the `maherkhatib` Worker (Workers & Pages → Overview)
+- `.env.local` present locally with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` — Vite bakes
+  these into the client/SSR bundle **at build time**; they are not read as Cloudflare runtime
+  vars/secrets. If they're missing or wrong when you run `npm run build`, every route that
+  touches `src/lib/supabase.ts` (which is most of the site) will throw at SSR render time and the
+  Worker will serve `src/lib/error-page.ts`'s static fallback instead of the real page.
 
-## Deployment Steps
+## Deploy
 
-### 1. Connect GitHub to Cloudflare Pages
+```bash
+npm run build
+npx wrangler deploy --config .output/server/wrangler.json --name maherkhatib
+```
 
-1. Go to https://dash.cloudflare.com
-2. Click on **Workers & Pages** in the left sidebar
-3. Click **Create application**
-4. Select the **Pages** tab
-5. Click **Connect to Git**
+The `--name maherkhatib` is required. Nitro auto-generates `.output/server/wrangler.json` with a
+different, unused name (`zunnoonwaheed-maher-khatib-property-website`) each build — deploying
+without the override creates a brand-new, wrong Worker instead of updating the live site.
 
-### 2. Configure Your Project
+Live URL: **https://maherkhatib.zunnoonwaheed.workers.dev** (no custom domain attached yet).
 
-1. **Select your repository**:
-   - Choose `zunnoonwaheed/Maher-Khatib-Property-Website`
-   - Click **Begin setup**
+## What NOT to do
 
-2. **Set up builds and deployments**:
-   - **Project name**: `maher-khatib-property` (or choose your own)
-   - **Production branch**: `main`
-   - **Framework preset**: `None` (or select if available)
-   - **Build command**: `npm run build`
-   - **Build output directory**: `.output/public`
-   - **Root directory**: Leave blank (use root)
-   - **Deploy command**: Leave blank (DO NOT add any deploy command)
+- **Don't run `fix-assets.js`.** It renames the `ASSETS` binding to `STATIC_ASSETS`, which was
+  written for a Cloudflare *Pages* project where `ASSETS` is a reserved name. This project is a
+  plain Worker, where `ASSETS` is the correct, expected binding name — the generated
+  `.output/server/index.mjs` hardcodes `env.ASSETS` internally, so renaming the binding breaks
+  static asset serving. It isn't wired into any npm script; keep it that way.
+- **Don't add a Cloudflare Pages project for this repo.** There isn't one, and the app's asset
+  binding / Worker-only APIs (`env.ASSETS.fetch`) aren't Pages-Functions compatible as configured.
+- **Don't expect a git push to auto-deploy.** Pushing to `main` only updates GitHub (and syncs
+  back into Lovable, per `AGENTS.md`) — it does not trigger a Cloudflare deploy. Run the deploy
+  command above after every push you want live.
 
-3. **Environment variables** (if needed):
-   - Click **Add variable** if you have any API keys or secrets
-   - For this project, none are required currently
+## Verifying a deploy
 
-4. Click **Save and Deploy**
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://maherkhatib.zunnoonwaheed.workers.dev/
+curl -s -o /dev/null -w "%{http_code}\n" https://maherkhatib.zunnoonwaheed.workers.dev/blog
+curl -s -o /dev/null -w "%{http_code}\n" https://maherkhatib.zunnoonwaheed.workers.dev/listings
+curl -s -o /dev/null -w "%{http_code}\n" https://maherkhatib.zunnoonwaheed.workers.dev/admin/login
+```
 
-⚠️ **IMPORTANT**: Do NOT add a deploy command like `npx wrangler deploy`. Cloudflare Pages handles deployment automatically.
-
-### 3. Deployment Process
-
-Cloudflare will:
-1. Clone your repository
-2. Install dependencies with `npm install`
-3. Run the build command `npm run build`
-4. Deploy the `.output/public` directory
-
-This usually takes 2-5 minutes.
-
-### 4. Access Your Site
-
-Once deployment is complete:
-- Your site will be available at: `https://maher-khatib-property.pages.dev`
-- You can also add a custom domain in the Cloudflare Pages settings
-
-## Automatic Deployments
-
-Every time you push to the `main` branch on GitHub, Cloudflare will automatically rebuild and redeploy your site.
-
-## Custom Domain Setup (Optional)
-
-1. In your Cloudflare Pages project, go to **Custom domains**
-2. Click **Set up a custom domain**
-3. Enter your domain (e.g., `maherkhatib.com`)
-4. Follow the DNS configuration instructions
-5. Cloudflare will automatically provision an SSL certificate
-
-## Build Configuration Details
-
-The project uses:
-- **Framework**: TanStack Start with React
-- **Build system**: Vite + Nitro
-- **Target**: Cloudflare (already configured in vite.config.ts)
-- **SSR**: Server-side rendering enabled
-- **Output**: Static files + edge functions in `.output/public`
-- **Deploy method**: Cloudflare Pages automatic deployment (no wrangler.toml needed)
+All four should return `200`. Note that the first requests immediately after a deploy can
+transiently 500 for a few seconds while the new Worker version propagates across Cloudflare's
+edge — re-check a moment later before concluding something is actually broken.
 
 ## Troubleshooting
 
-### Error: "The name 'ASSETS' is reserved in Pages projects"
-**Fix**: Remove any custom deploy command from your Cloudflare Pages settings.
-- Go to your Pages project settings
-- Under **Builds & deployments**, ensure the "Deploy command" field is EMPTY
-- Click **Save**
-- Trigger a new deployment
+### Site returns 500 with a generic "This page didn't load" message
+That's this app's own SSR-crash fallback (`src/lib/error-page.ts`), not a Cloudflare error. The
+most common cause is `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` being missing or wrong in
+`.env.local` at the time you ran `npm run build` — `src/lib/supabase.ts` throws on module init if
+either is unset, which crashes SSR for nearly every route. Rebuild with correct values and
+redeploy.
 
-### Build fails
-- Check the build logs in Cloudflare dashboard
-- Ensure all dependencies are in `package.json`
-- Verify the build command works locally: `npm run build`
+### `wrangler deploy` creates a new Worker instead of updating the live one
+You omitted `--name maherkhatib`. Nitro's auto-generated name in
+`.output/server/wrangler.json` doesn't match the real Worker; always pass the explicit name (see
+Deploy above), or hand-edit the `name` field in that generated file before deploying.
 
-### Site not loading
-- Check the build output directory is correct: `.output/public`
-- Verify the production build works locally: `npm run preview`
-
-### Wrong deploy command
-- DO NOT use `npx wrangler deploy` - that's for Workers, not Pages
-- Leave the deploy command field blank in Cloudflare Pages settings
-- Cloudflare Pages automatically handles deployment after build
-
-## Support
-
-For issues specific to:
-- **Cloudflare Pages**: https://developers.cloudflare.com/pages
-- **TanStack Start**: https://tanstack.com/start/latest
+### Vercel
+`vercel.json` at the repo root also configures a Vercel deployment (`npm install --legacy-peer-deps`,
+`npm run build`, output `.output/public`) as an alternative target — unrelated to the Cloudflare
+Worker deploy described here.

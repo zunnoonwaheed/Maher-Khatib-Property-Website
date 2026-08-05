@@ -39,7 +39,6 @@ export async function getPublishedListings(): Promise<Listing[]> {
     .from("listings")
     .select(COLUMNS)
     .eq("published", true)
-    .eq("featured", false)
     .order("sort_order", { ascending: true });
 
   if (error) throw error;
